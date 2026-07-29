@@ -195,24 +195,144 @@ const NAV_ITEMS = [
   { id: "social"   as Page, Icon: Users,    label: "Social"  },
 ];
 
-function NavBar({ page, setPage }: { page: Page; setPage: (p: Page) => void }) {
+const PAGE_LABELS: Record<Page, string> = {
+  home: "Home",
+  summary: "Summary",
+  health: "Health",
+  progress: "Ziele",
+  social: "Social",
+};
+
+function SideMenu({
+  page, setPage, open, onClose,
+}: { page: Page; setPage: (p: Page) => void; open: boolean; onClose: () => void }) {
   return (
-    <div className="flex items-center justify-around px-1 py-2 border-t shrink-0"
-      style={{ background: "rgba(5,11,22,0.97)", backdropFilter: "blur(28px)", borderColor: "rgba(255,255,255,0.07)" }}>
-      {NAV_ITEMS.map(({ id, Icon, label }) => {
-        const on = id === page;
-        return (
-          <button key={id} onClick={() => setPage(id)} className="relative flex flex-col items-center gap-1 px-3 py-1.5 rounded-xl">
-            {on && (
-              <motion.div layoutId="nb" className="absolute inset-0 rounded-xl"
-                style={{ background: "rgba(0,180,255,0.09)" }}
-                transition={{ type: "spring", damping: 26, stiffness: 300 }} />
-            )}
-            <Icon size={21} style={{ color: on ? "#00B4FF" : "#253650", filter: on ? "drop-shadow(0 0 7px rgba(0,180,255,0.7))" : "none", transition: "all .2s" }} />
-            <span className="text-[10px] font-semibold" style={{ color: on ? "#00B4FF" : "#253650", transition: "color .2s" }}>{label}</span>
-          </button>
-        );
-      })}
+    <AnimatePresence>
+      {open && (
+        <>
+          {/* Backdrop */}
+          <motion.div
+            key="backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.22 }}
+            className="absolute inset-0 z-40"
+            style={{ background: "rgba(2,6,16,0.72)", backdropFilter: "blur(6px)" }}
+            onClick={onClose}
+          />
+
+          {/* Drawer */}
+          <motion.div
+            key="drawer"
+            initial={{ x: "-100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "-100%" }}
+            transition={{ type: "spring", damping: 28, stiffness: 280 }}
+            className="absolute left-0 top-0 bottom-0 z-50 flex flex-col"
+            style={{
+              width: "72%",
+              background: "rgba(7,14,28,0.98)",
+              backdropFilter: "blur(32px)",
+              borderRight: "1px solid rgba(255,255,255,0.08)",
+              boxShadow: "8px 0 48px rgba(0,0,0,0.6)",
+            }}
+          >
+            {/* Drawer header */}
+            <div className="flex items-center justify-between px-5 pt-10 pb-6 border-b"
+              style={{ borderColor: "rgba(255,255,255,0.07)" }}>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-black text-white border-2"
+                  style={{ background: "linear-gradient(135deg,#003EBF,#00B4FF)", borderColor: "#00B4FF", boxShadow: "0 0 14px rgba(0,180,255,0.35)" }}>
+                  MK
+                </div>
+                <div>
+                  <p className="text-white font-bold text-[14px] leading-tight">Max Krause</p>
+                  <p className="text-white/35 text-[11px]">Pro Member</p>
+                </div>
+              </div>
+              <button onClick={onClose}
+                className="w-8 h-8 rounded-full flex items-center justify-center border border-white/[.08]"
+                style={{ background: "rgba(255,255,255,0.05)" }}>
+                <X size={15} className="text-white/50" />
+              </button>
+            </div>
+
+            {/* Nav items */}
+            <nav className="flex flex-col gap-1 px-3 py-5 flex-1">
+              {NAV_ITEMS.map(({ id, Icon, label }) => {
+                const on = id === page;
+                return (
+                  <button
+                    key={id}
+                    onClick={() => { setPage(id); onClose(); }}
+                    className="relative flex items-center gap-4 px-4 py-3.5 rounded-2xl text-left transition-colors"
+                    style={{ background: on ? "rgba(0,180,255,0.1)" : "transparent" }}
+                  >
+                    {on && (
+                      <motion.div layoutId="smd"
+                        className="absolute inset-0 rounded-2xl"
+                        style={{ background: "rgba(0,180,255,0.1)" }}
+                        transition={{ type: "spring", damping: 26, stiffness: 300 }}
+                      />
+                    )}
+                    <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0"
+                      style={{ background: on ? "rgba(0,180,255,0.18)" : "rgba(255,255,255,0.05)" }}>
+                      <Icon size={18}
+                        style={{
+                          color: on ? "#00B4FF" : "#2E4560",
+                          filter: on ? "drop-shadow(0 0 6px rgba(0,180,255,0.7))" : "none",
+                          transition: "all .2s",
+                        }}
+                      />
+                    </div>
+                    <span className="font-semibold text-[15px]"
+                      style={{ color: on ? "#00B4FF" : "#4A6888" }}>
+                      {label}
+                    </span>
+                    {on && (
+                      <div className="ml-auto w-1.5 h-6 rounded-full"
+                        style={{ background: "linear-gradient(180deg,#003EBF,#00B4FF)" }} />
+                    )}
+                  </button>
+                );
+              })}
+            </nav>
+
+            {/* Footer */}
+            <div className="px-5 py-6 border-t" style={{ borderColor: "rgba(255,255,255,0.07)" }}>
+              <div className="flex items-center gap-3">
+                <div className="flex-1 h-1.5 rounded-full bg-white/[.07] overflow-hidden">
+                  <div className="h-full rounded-full"
+                    style={{ width: "82%", background: "linear-gradient(90deg,#003EBF,#00B4FF)" }} />
+                </div>
+                <span className="text-[11px] font-semibold shrink-0" style={{ color: "#00B4FF" }}>82 / 100</span>
+              </div>
+              <p className="text-white/30 text-[10px] mt-1.5">Trainingsbereitschaft heute</p>
+            </div>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  );
+}
+
+function TopBar({ page, onMenuOpen }: { page: Page; onMenuOpen: () => void }) {
+  return (
+    <div className="flex items-center justify-between px-4 pt-10 pb-3 shrink-0">
+      <button
+        onClick={onMenuOpen}
+        className="w-10 h-10 rounded-xl flex items-center justify-center border border-white/[.08] transition-colors hover:bg-white/[.06]"
+        style={{ background: "rgba(255,255,255,0.05)" }}
+      >
+        <div className="flex flex-col gap-[5px]">
+          <span className="block w-4 h-[1.5px] rounded-full bg-white/70" />
+          <span className="block w-3 h-[1.5px] rounded-full bg-white/50" />
+          <span className="block w-4 h-[1.5px] rounded-full bg-white/70" />
+        </div>
+      </button>
+      <span className="text-white font-bold text-[15px]">{PAGE_LABELS[page]}</span>
+      <div className="w-10 h-10" />
     </div>
   );
 }
@@ -226,17 +346,11 @@ function HomePage({ onStart }: { onStart: (t: AID) => void }) {
   const AI = act.icon;
 
   return (
-    <div className="flex flex-col gap-4 px-4 pt-6 pb-24">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <p className="text-white/35 text-sm font-medium">Samstag, 26. Juli</p>
-          <h1 className="text-white text-[22px] font-black mt-0.5">Hey, Max 👋</h1>
-        </div>
-        <div className="w-11 h-11 rounded-full flex items-center justify-center text-sm font-black text-white border-2"
-          style={{ background: "linear-gradient(135deg,#003EBF,#00B4FF)", borderColor: "#00B4FF", boxShadow: "0 0 16px rgba(0,180,255,0.38)" }}>
-          MK
-        </div>
+    <div className="flex flex-col gap-4 px-4 pt-3 pb-24">
+      {/* Greeting */}
+      <div>
+        <p className="text-white/35 text-sm font-medium">Samstag, 26. Juli</p>
+        <h1 className="text-white text-[22px] font-black mt-0.5">Hey, Max 👋</h1>
       </div>
 
       {/* ── Activity starter ── */}
@@ -1066,6 +1180,7 @@ function SocialPage() {
 export default function App() {
   const [page, setPage] = useState<Page>("home");
   const [workout, setWorkout] = useState<AID|null>(null);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   if (workout) {
     return (
@@ -1085,6 +1200,9 @@ export default function App() {
       <div className="absolute bottom-[60px] right-[-70px] w-[220px] h-[220px] rounded-full pointer-events-none"
         style={{ background:"rgba(0,180,255,0.05)", filter:"blur(55px)" }}/>
 
+      {/* Top bar with hamburger */}
+      <TopBar page={page} onMenuOpen={() => setMenuOpen(true)} />
+
       {/* Scrollable content */}
       <div className="flex-1 overflow-y-auto relative" style={{ scrollbarWidth:"none" }}>
         <AnimatePresence mode="wait">
@@ -1099,7 +1217,8 @@ export default function App() {
         </AnimatePresence>
       </div>
 
-      <NavBar page={page} setPage={setPage}/>
+      {/* Side drawer */}
+      <SideMenu page={page} setPage={setPage} open={menuOpen} onClose={() => setMenuOpen(false)} />
     </div>
   );
 }
