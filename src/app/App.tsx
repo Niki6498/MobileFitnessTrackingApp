@@ -7,7 +7,6 @@ import {
   Trophy, ThumbsUp, MessageCircle,
   Waves, Bike, Dumbbell, Music,
   Star, Share2, ChevronRight, Check,
-  Wind, Leaf, Droplets, Sun,
 } from "lucide-react";
 import {
   AreaChart, Area, BarChart, Bar,
@@ -16,7 +15,7 @@ import {
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-type Page = "home" | "summary" | "health" | "recovery" | "progress" | "social";
+type Page = "home" | "summary" | "health" | "progress" | "social";
 type AID = "running" | "cycling" | "hiit" | "swimming" | "strength" | "dancing";
 
 interface ActDef {
@@ -189,33 +188,28 @@ function ChartTip({ active, payload, label }: { active?: boolean; payload?: {nam
 // ─── Navigation ───────────────────────────────────────────────────────────────
 
 const NAV_ITEMS = [
-  { id: "home"     as Page, Icon: Home,     label: "Home"     },
-  { id: "summary"  as Page, Icon: BarChart2, label: "Summary"  },
-  { id: "health"   as Page, Icon: Heart,    label: "Health"   },
-  { id: "recovery" as Page, Icon: Leaf,     label: "Recovery" },
-  { id: "progress" as Page, Icon: Target,   label: "Ziele"    },
-  { id: "social"   as Page, Icon: Users,    label: "Social"   },
+  { id: "home"     as Page, Icon: Home,     label: "Home"    },
+  { id: "summary"  as Page, Icon: BarChart2, label: "Summary" },
+  { id: "health"   as Page, Icon: Heart,    label: "Health"  },
+  { id: "progress" as Page, Icon: Target,   label: "Ziele"   },
+  { id: "social"   as Page, Icon: Users,    label: "Social"  },
 ];
 
 function NavBar({ page, setPage }: { page: Page; setPage: (p: Page) => void }) {
   return (
-    <div className="flex items-center justify-around px-0.5 py-2 border-t shrink-0"
+    <div className="flex items-center justify-around px-1 py-2 border-t shrink-0"
       style={{ background: "rgba(5,11,22,0.97)", backdropFilter: "blur(28px)", borderColor: "rgba(255,255,255,0.07)" }}>
       {NAV_ITEMS.map(({ id, Icon, label }) => {
         const on = id === page;
-        const isRecovery = id === "recovery";
-        const activeColor = isRecovery ? "#00D4AA" : "#00B4FF";
-        const glowColor   = isRecovery ? "rgba(0,212,170,0.7)" : "rgba(0,180,255,0.7)";
-        const bgColor     = isRecovery ? "rgba(0,212,170,0.09)" : "rgba(0,180,255,0.09)";
         return (
-          <button key={id} onClick={() => setPage(id)} className="relative flex flex-col items-center gap-0.5 px-2 py-1.5 rounded-xl">
+          <button key={id} onClick={() => setPage(id)} className="relative flex flex-col items-center gap-1 px-3 py-1.5 rounded-xl">
             {on && (
               <motion.div layoutId="nb" className="absolute inset-0 rounded-xl"
-                style={{ background: bgColor }}
+                style={{ background: "rgba(0,180,255,0.09)" }}
                 transition={{ type: "spring", damping: 26, stiffness: 300 }} />
             )}
-            <Icon size={20} style={{ color: on ? activeColor : "#253650", filter: on ? `drop-shadow(0 0 7px ${glowColor})` : "none", transition: "all .2s" }} />
-            <span className="text-[9px] font-semibold" style={{ color: on ? activeColor : "#253650", transition: "color .2s" }}>{label}</span>
+            <Icon size={21} style={{ color: on ? "#00B4FF" : "#253650", filter: on ? "drop-shadow(0 0 7px rgba(0,180,255,0.7))" : "none", transition: "all .2s" }} />
+            <span className="text-[10px] font-semibold" style={{ color: on ? "#00B4FF" : "#253650", transition: "color .2s" }}>{label}</span>
           </button>
         );
       })}
@@ -225,7 +219,7 @@ function NavBar({ page, setPage }: { page: Page; setPage: (p: Page) => void }) {
 
 // ─── HOME ─────────────────────────────────────────────────────────────────────
 
-function HomePage({ onStart, onNavigate }: { onStart: (t: AID) => void; onNavigate: (p: Page) => void }) {
+function HomePage({ onStart }: { onStart: (t: AID) => void }) {
   const [sel, setSel] = useState<AID>("running");
   const [open, setOpen] = useState(false);
   const act = getA(sel);
@@ -329,41 +323,6 @@ function HomePage({ onStart, onNavigate }: { onStart: (t: AID) => void; onNaviga
           <p className="text-[10px] mt-1.5" style={{ color:"#00B4FF" }}>Sehr gut ↑ vs. gestern</p>
         </div>
       </Glass>
-
-      {/* Recovery mini-card */}
-      <motion.button whileTap={{ scale: .98 }} onClick={() => onNavigate("recovery")} className="w-full text-left">
-        <Glass className="p-4 flex items-center gap-4"
-          style={{ boxShadow: "0 0 32px rgba(0,212,170,0.13), 0 4px 20px rgba(0,0,0,0.45)" }}>
-          {/* Score ring */}
-          <div className="relative w-14 h-14 shrink-0">
-            <svg viewBox="0 0 56 56" className="w-full h-full -rotate-90">
-              <circle cx="28" cy="28" r="22" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="6"/>
-              <circle cx="28" cy="28" r="22" fill="none" stroke="url(#rcmg)" strokeWidth="6"
-                strokeDasharray={`${2*Math.PI*22*0.73} ${2*Math.PI*22}`} strokeLinecap="round"/>
-              <defs>
-                <linearGradient id="rcmg" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#00A382"/><stop offset="100%" stopColor="#00D4AA"/>
-                </linearGradient>
-              </defs>
-            </svg>
-            <div className="absolute inset-0 flex items-center justify-center">
-              <span className="text-[15px] font-black leading-none" style={{ color: "#00D4AA", fontFamily: MONO }}>73</span>
-            </div>
-          </div>
-          <div className="flex-1">
-            <div className="flex items-center gap-2 mb-0.5">
-              <Leaf size={13} style={{ color: "#00D4AA" }}/>
-              <p className="text-white font-bold text-[14px]">Recovery Score</p>
-            </div>
-            <p className="text-white/40 text-xs leading-snug">Moderat erholt · Leichtes Training empfohlen</p>
-            <div className="flex gap-2 mt-2">
-              <Pill label="Schlaf 78%" color="#A78BFA"/>
-              <Pill label="Stress tief" color="#00D4AA"/>
-            </div>
-          </div>
-          <ChevronRight size={15} className="text-white/20 shrink-0"/>
-        </Glass>
-      </motion.button>
 
       {/* Suggested */}
       <div>
@@ -1102,221 +1061,6 @@ function SocialPage() {
   );
 }
 
-// ─── RECOVERY ─────────────────────────────────────────────────────────────────
-
-const RECOVERY_TIPS = [
-  {
-    id: 1, icon: Wind, color: "#00D4AA",
-    title: "4-7-8 Atemübung",
-    desc: "4 sek einatmen, 7 sek halten, 8 sek ausatmen. 4 Zyklen für sofortige Entspannung.",
-    duration: "5 min",
-  },
-  {
-    id: 2, icon: Activity, color: "#60A5FA",
-    title: "Progressives Muskelentspannen",
-    desc: "Muskelgruppen von den Füßen aufwärts bewusst anspannen und loslassen.",
-    duration: "12 min",
-  },
-  {
-    id: 3, icon: Sun, color: "#F59E0B",
-    title: "Spaziergang an der frischen Luft",
-    desc: "Leichte Bewegung an der Luft senkt Cortisol und fördert die Regeneration.",
-    duration: "20 min",
-  },
-  {
-    id: 4, icon: Droplets, color: "#60A5FA",
-    title: "Ausreichend Hydration",
-    desc: "Ziel: 2,5 l Wasser heute. Elektrolyte nach intensivem Training ergänzen.",
-    duration: "Ganztags",
-  },
-  {
-    id: 5, icon: Brain, color: "#A78BFA",
-    title: "Mindfulness-Meditation",
-    desc: "Body-Scan-Meditation zur mentalen Entspannung und Stressreduktion.",
-    duration: "10 min",
-  },
-];
-
-function RecoveryPage() {
-  const score = 73;
-  const circ  = 2 * Math.PI * 48;
-
-  const subMetrics = [
-    { label: "Schlafqualität", value: "78", unit: "%",  color: "#A78BFA" },
-    { label: "Stresslevel",    value: "32", unit: "/100",color: "#00D4AA" },
-    { label: "HRV",            value: "58", unit: "ms",  color: "#F97316" },
-  ];
-
-  // 5-segment intensity bar: 2 of 5 lit = "Leicht"
-  const intensitySegments = 5;
-  const intensityFilled   = 2;
-  const intensityLabel    = "Leicht";
-  const intensityDesc     = "Dein Körper braucht heute Erholung. Leichte Aktivität wie Stretching, Yoga oder ein ruhiger Spaziergang sind ideal.";
-
-  const sleepFactors = [
-    { label: "Einschlafdauer", value: "12 min",  good: true  },
-    { label: "Schlafdauer",    value: "6h 00 min",good: false },
-    { label: "Tiefschlafanteil", value: "37%",   good: true  },
-    { label: "REM-Anteil",     value: "30%",      good: true  },
-    { label: "Aufwachzeiten",  value: "2×",       good: false },
-  ];
-
-  return (
-    <div className="flex flex-col gap-4 px-4 pt-6 pb-24">
-      <h1 className="text-white text-[22px] font-black">Recovery</h1>
-
-      {/* ── Score ring ── */}
-      <Glass className="p-5 flex flex-col items-center"
-        style={{ boxShadow: "0 0 48px rgba(0,212,170,0.16), 0 4px 28px rgba(0,0,0,0.5)" }}>
-        <p className="text-white/35 text-[10px] uppercase tracking-[.13em] font-semibold mb-4">Recovery Score · Heute</p>
-        <div className="relative w-[136px] h-[136px] mb-4">
-          <svg viewBox="0 0 120 120" className="w-full h-full -rotate-90">
-            <circle cx="60" cy="60" r="48" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="10"/>
-            <circle cx="60" cy="60" r="48" fill="none" stroke="url(#rsg)" strokeWidth="10"
-              strokeDasharray={`${circ*(score/100)} ${circ}`} strokeLinecap="round"/>
-            <defs>
-              <linearGradient id="rsg" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#00A382"/>
-                <stop offset="100%" stopColor="#00D4AA"/>
-              </linearGradient>
-            </defs>
-          </svg>
-          <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <span className="text-[44px] font-black leading-none text-white" style={{ fontFamily: MONO }}>{score}</span>
-            <span className="text-white/30 text-xs mt-0.5">/ 100</span>
-          </div>
-          {/* Glow */}
-          <div className="absolute inset-0 rounded-full pointer-events-none"
-            style={{ boxShadow: "inset 0 0 32px rgba(0,212,170,0.08)" }}/>
-        </div>
-        <div className="flex items-center gap-2 mb-1">
-          <div className="w-2 h-2 rounded-full" style={{ background: "#00D4AA" }}/>
-          <span className="text-white font-bold text-[15px]">Moderat erholt</span>
-        </div>
-        <p className="text-white/40 text-xs text-center leading-relaxed">
-          Gute Basiswerte — heute lieber leichtes Training oder aktive Erholung.
-        </p>
-      </Glass>
-
-      {/* ── Sub-metrics row ── */}
-      <div className="grid grid-cols-3 gap-2">
-        {subMetrics.map(m => (
-          <Glass key={m.label} className="p-3 text-center">
-            <p className="text-white font-black text-[18px] leading-tight" style={{ color: m.color, fontFamily: MONO }}>
-              {m.value}<span className="text-[10px] font-semibold text-white/30 ml-0.5">{m.unit}</span>
-            </p>
-            <p className="text-white/35 text-[9px] mt-1 uppercase tracking-wide leading-tight">{m.label}</p>
-          </Glass>
-        ))}
-      </div>
-
-      {/* ── Empfohlene Trainingsintensität ── */}
-      <Glass className="p-4"
-        style={{ boxShadow: "0 0 32px rgba(0,212,170,0.1), 0 4px 20px rgba(0,0,0,0.45)" }}>
-        <div className="flex items-center justify-between mb-3">
-          <p className="text-white font-bold text-[14px]">Empfohlene Intensität</p>
-          <span className="text-xs font-bold px-2.5 py-1 rounded-full"
-            style={{ background: "rgba(0,212,170,0.15)", color: "#00D4AA" }}>
-            {intensityLabel}
-          </span>
-        </div>
-        {/* Segment bar */}
-        <div className="flex gap-1.5 mb-3">
-          {Array.from({ length: intensitySegments }).map((_, i) => (
-            <div key={i} className="flex-1 h-2.5 rounded-full transition-all"
-              style={{
-                background: i < intensityFilled
-                  ? `linear-gradient(90deg,#00A382,#00D4AA)`
-                  : "rgba(255,255,255,0.07)",
-                boxShadow: i < intensityFilled ? "0 0 8px rgba(0,212,170,0.4)" : "none",
-              }}
-            />
-          ))}
-        </div>
-        <div className="flex justify-between text-[9px] text-white/25 font-medium mb-3 px-0.5">
-          {["Ruhe","Leicht","Moderat","Intensiv","Max"].map(l => (
-            <span key={l}>{l}</span>
-          ))}
-        </div>
-        <p className="text-white/45 text-[12px] leading-relaxed">{intensityDesc}</p>
-      </Glass>
-
-      {/* ── Schlafqualität ── */}
-      <Glass className="p-4">
-        <div className="flex items-center gap-2 mb-3">
-          <Moon size={14} style={{ color: "#A78BFA" }}/>
-          <p className="text-white font-bold text-[14px]">Schlafqualität</p>
-          <Pill label="78 / 100" color="#A78BFA"/>
-        </div>
-        <div className="flex flex-col gap-2">
-          {sleepFactors.map(f => (
-            <div key={f.label} className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <div className="w-1.5 h-1.5 rounded-full shrink-0"
-                  style={{ background: f.good ? "#00D4AA" : "#F97316" }}/>
-                <span className="text-white/50 text-[12px]">{f.label}</span>
-              </div>
-              <span className="font-semibold text-[12px]"
-                style={{ color: f.good ? "#00D4AA" : "#F97316", fontFamily: MONO }}>
-                {f.value}
-              </span>
-            </div>
-          ))}
-        </div>
-      </Glass>
-
-      {/* ── Stresslevel ── */}
-      <Glass className="p-4">
-        <div className="flex items-center gap-2 mb-3">
-          <Brain size={14} style={{ color: "#F472B6" }}/>
-          <p className="text-white font-bold text-[14px]">Stresslevel</p>
-        </div>
-        <div className="flex items-end gap-3 mb-3">
-          <span className="text-[40px] font-black text-white leading-none" style={{ fontFamily: MONO }}>32</span>
-          <div className="pb-1">
-            <span className="text-[13px] font-semibold" style={{ color: "#00D4AA" }}>Niedrig ↓</span>
-            <p className="text-white/30 text-[10px]">von 100</p>
-          </div>
-        </div>
-        <div className="h-2 rounded-full bg-white/[.07] overflow-hidden mb-2">
-          <motion.div initial={{ width: 0 }} animate={{ width: "32%" }}
-            transition={{ duration: 0.9, ease: "easeOut" }}
-            className="h-full rounded-full"
-            style={{ background: "linear-gradient(90deg,#BE185D,#F472B6)" }}/>
-        </div>
-        <p className="text-white/35 text-[11px] leading-relaxed">
-          Dein Stresslevel ist heute erfreulich niedrig. Nutze diesen Zustand für fokussierte Erholungsmaßnahmen.
-        </p>
-      </Glass>
-
-      {/* ── Empfehlungen ── */}
-      <div>
-        <p className="text-white font-bold text-[14px] mb-3">Empfehlungen zur Erholung</p>
-        <div className="flex flex-col gap-2.5">
-          {RECOVERY_TIPS.map(tip => {
-            const TI = tip.icon;
-            return (
-              <Glass key={tip.id} className="p-4 flex items-start gap-3">
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 mt-0.5"
-                  style={{ background: tip.color + "1A" }}>
-                  <TI size={18} style={{ color: tip.color }}/>
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between gap-2 mb-0.5">
-                    <p className="text-white font-semibold text-[13px]">{tip.title}</p>
-                    <span className="text-[10px] font-medium shrink-0" style={{ color: tip.color }}>{tip.duration}</span>
-                  </div>
-                  <p className="text-white/40 text-[11px] leading-relaxed">{tip.desc}</p>
-                </div>
-              </Glass>
-            );
-          })}
-        </div>
-      </div>
-    </div>
-  );
-}
-
 // ─── APP ROOT ─────────────────────────────────────────────────────────────────
 
 export default function App() {
@@ -1346,10 +1090,9 @@ export default function App() {
         <AnimatePresence mode="wait">
           <motion.div key={page} initial={{ opacity:0,y:10 }} animate={{ opacity:1,y:0 }}
             exit={{ opacity:0,y:-10 }} transition={{ duration:0.16 }} className="min-h-full">
-            {page==="home"     && <HomePage onStart={setWorkout} onNavigate={setPage}/>}
+            {page==="home"     && <HomePage onStart={setWorkout}/>}
             {page==="summary"  && <SummaryPage/>}
             {page==="health"   && <HealthPage/>}
-            {page==="recovery" && <RecoveryPage/>}
             {page==="progress" && <ProgressPage/>}
             {page==="social"   && <SocialPage/>}
           </motion.div>
