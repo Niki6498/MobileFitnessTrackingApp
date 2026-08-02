@@ -286,13 +286,16 @@ function HomePage({ onStart }: { onStart: (t: AID) => void }) {
         </div>
 
         {/* Start button */}
-        <motion.button whileTap={{ scale: .96 }} onClick={() => onStart(sel)}
-          className="w-full py-4 rounded-2xl font-extrabold text-[15px] text-white flex items-center justify-center gap-2 relative overflow-hidden tracking-wide"
-          style={{ background: "linear-gradient(130deg,#0044CC,#009EEE 55%,#00C8FF)", boxShadow: "0 0 38px rgba(0,180,255,0.45),0 4px 20px rgba(0,0,0,0.5)" }}>
-          <div className="absolute inset-0 opacity-25"
-            style={{ background: "radial-gradient(ellipse at 75% 40%,rgba(255,255,255,.35) 0%,transparent 65%)" }} />
-          <Play size={17} fill="white" />
-          TRAINING STARTEN
+        <motion.button whileTap={{ scale: .95 }} onClick={() => onStart(sel)}
+          className="w-full py-5 rounded-full font-extrabold text-[15px] text-white flex items-center justify-center gap-3 relative overflow-hidden tracking-wide"
+          style={{ background: "linear-gradient(130deg,#9D174D,#EC4899 52%,#F472B6)", boxShadow: "0 0 42px rgba(236,72,153,0.55),0 4px 22px rgba(0,0,0,0.5)" }}>
+          <div className="absolute inset-0 opacity-30"
+            style={{ background: "radial-gradient(ellipse at 70% 35%,rgba(255,255,255,.45) 0%,transparent 62%)" }} />
+          <div className="w-7 h-7 rounded-full flex items-center justify-center shrink-0 relative z-10"
+            style={{ background: "rgba(255,255,255,0.18)" }}>
+            <AI size={14} style={{ color: "white" }} />
+          </div>
+          <span className="relative z-10">TRAINING STARTEN</span>
         </motion.button>
       </Glass>
 
