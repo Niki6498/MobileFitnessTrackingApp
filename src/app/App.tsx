@@ -195,24 +195,50 @@ const NAV_ITEMS = [
   { id: "social"   as Page, Icon: Users,    label: "Social"  },
 ];
 
-function NavBar({ page, setPage }: { page: Page; setPage: (p: Page) => void }) {
+function NavBar({ page, setPage, onRun }: { page: Page; setPage: (p: Page) => void; onRun: () => void }) {
+  const LEFT  = NAV_ITEMS.slice(0, 2); // Home, Summary
+  const RIGHT = NAV_ITEMS.slice(2);    // Health, Progress, Social
+
+  const Tab = ({ id, Icon, label }: { id: Page; Icon: React.ElementType; label: string }) => {
+    const on = id === page;
+    return (
+      <button onClick={() => setPage(id)} className="relative flex flex-col items-center gap-[3px] px-2 py-1.5 rounded-xl">
+        {on && (
+          <motion.div layoutId="nb" className="absolute inset-0 rounded-xl"
+            style={{ background: "rgba(0,180,255,0.09)" }}
+            transition={{ type: "spring", damping: 26, stiffness: 300 }} />
+        )}
+        <Icon size={19} style={{ color: on ? "#00B4FF" : "#253650", filter: on ? "drop-shadow(0 0 6px rgba(0,180,255,0.7))" : "none", transition: "all .2s" }} />
+        <span className="text-[9px] font-semibold leading-none" style={{ color: on ? "#00B4FF" : "#253650", transition: "color .2s" }}>{label}</span>
+      </button>
+    );
+  };
+
   return (
-    <div className="flex items-center justify-around px-1 py-2 border-t shrink-0"
+    <div className="flex items-end justify-around px-1 pt-1 pb-3 border-t shrink-0 overflow-visible relative"
       style={{ background: "rgba(5,11,22,0.97)", backdropFilter: "blur(28px)", borderColor: "rgba(255,255,255,0.07)" }}>
-      {NAV_ITEMS.map(({ id, Icon, label }) => {
-        const on = id === page;
-        return (
-          <button key={id} onClick={() => setPage(id)} className="relative flex flex-col items-center gap-1 px-3 py-1.5 rounded-xl">
-            {on && (
-              <motion.div layoutId="nb" className="absolute inset-0 rounded-xl"
-                style={{ background: "rgba(0,180,255,0.09)" }}
-                transition={{ type: "spring", damping: 26, stiffness: 300 }} />
-            )}
-            <Icon size={21} style={{ color: on ? "#00B4FF" : "#253650", filter: on ? "drop-shadow(0 0 7px rgba(0,180,255,0.7))" : "none", transition: "all .2s" }} />
-            <span className="text-[10px] font-semibold" style={{ color: on ? "#00B4FF" : "#253650", transition: "color .2s" }}>{label}</span>
-          </button>
-        );
-      })}
+
+      {LEFT.map(item => <Tab key={item.id} {...item} />)}
+
+      {/* ── Central Run button ── */}
+      <div className="flex flex-col items-center" style={{ marginTop: "-26px" }}>
+        <motion.button
+          whileTap={{ scale: 0.91 }}
+          onClick={onRun}
+          className="w-[58px] h-[58px] rounded-full flex items-center justify-center relative"
+          style={{
+            background: "linear-gradient(140deg,#0044CC,#009EEE 55%,#00C8FF)",
+            boxShadow: "0 0 30px rgba(0,180,255,0.60), 0 4px 20px rgba(0,0,0,0.55)",
+            border: "3px solid rgba(5,11,22,0.97)",
+          }}>
+          <div className="absolute inset-0 rounded-full opacity-30"
+            style={{ background: "radial-gradient(ellipse at 60% 30%,rgba(255,255,255,.45) 0%,transparent 65%)" }} />
+          <Footprints size={22} className="text-white relative z-10" />
+        </motion.button>
+        <span className="text-[10px] font-black tracking-wide mt-1.5" style={{ color: "#00B4FF" }}>Run</span>
+      </div>
+
+      {RIGHT.map(item => <Tab key={item.id} {...item} />)}
     </div>
   );
 }
@@ -1099,7 +1125,7 @@ export default function App() {
         </AnimatePresence>
       </div>
 
-      <NavBar page={page} setPage={setPage}/>
+      <NavBar page={page} setPage={setPage} onRun={() => setWorkout("running")}/>
     </div>
   );
 }
