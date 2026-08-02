@@ -43,12 +43,12 @@ interface PastAct {
 // ─── Static data ──────────────────────────────────────────────────────────────
 
 const ACTS: ActDef[] = [
-  { id: "running",  label: "Running",       icon: Footprints, color: "#2563EB", speedFactor: 0.18, calFactor: 11 },
-  { id: "cycling",  label: "Cycling",       icon: Bike,       color: "#16A34A", speedFactor: 0.45, calFactor: 8  },
-  { id: "hiit",     label: "HIIT",          icon: Zap,        color: "#EA580C", speedFactor: 0,    calFactor: 14 },
-  { id: "swimming", label: "Swimming",      icon: Waves,      color: "#0284C7", speedFactor: 0.05, calFactor: 10 },
-  { id: "strength", label: "Krafttraining", icon: Dumbbell,   color: "#7C3AED", speedFactor: 0,    calFactor: 7  },
-  { id: "dancing",  label: "Tanzen",        icon: Music,      color: "#DB2777", speedFactor: 0,    calFactor: 6  },
+  { id: "running",  label: "Running",       icon: Footprints, color: "#00B4FF", speedFactor: 0.18, calFactor: 11 },
+  { id: "cycling",  label: "Cycling",       icon: Bike,       color: "#4ADE80", speedFactor: 0.45, calFactor: 8  },
+  { id: "hiit",     label: "HIIT",          icon: Zap,        color: "#F97316", speedFactor: 0,    calFactor: 14 },
+  { id: "swimming", label: "Swimming",      icon: Waves,      color: "#60A5FA", speedFactor: 0.05, calFactor: 10 },
+  { id: "strength", label: "Krafttraining", icon: Dumbbell,   color: "#A78BFA", speedFactor: 0,    calFactor: 7  },
+  { id: "dancing",  label: "Tanzen",        icon: Music,      color: "#F472B6", speedFactor: 0,    calFactor: 6  },
 ];
 
 const WEEKLY = [
@@ -96,10 +96,10 @@ const SUGGESTED = [
 ];
 
 const GOALS = [
-  { id: 1, label: "Wöchentliche Distanz",  cur: 36.2, max: 50,   unit: "km",        color: "#2563EB" },
-  { id: 2, label: "Kalorien",              cur: 2480, max: 3500, unit: "kcal",       color: "#EA580C" },
-  { id: 3, label: "Trainingseinheiten",    cur: 4,    max: 5,    unit: "Einheiten",  color: "#16A34A" },
-  { id: 4, label: "Aktive Minuten",        cur: 186,  max: 250,  unit: "min",        color: "#7C3AED" },
+  { id: 1, label: "Wöchentliche Distanz",  cur: 36.2, max: 50,   unit: "km",        color: "#00B4FF" },
+  { id: 2, label: "Kalorien",              cur: 2480, max: 3500, unit: "kcal",       color: "#F97316" },
+  { id: 3, label: "Trainingseinheiten",    cur: 4,    max: 5,    unit: "Einheiten",  color: "#4ADE80" },
+  { id: 4, label: "Aktive Minuten",        cur: 186,  max: 250,  unit: "min",        color: "#A78BFA" },
 ];
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -122,11 +122,11 @@ function Glass({
     <div
       className={`rounded-2xl border backdrop-blur-xl ${className}`}
       style={{
-        background: "rgba(255,255,255,0.82)",
-        borderColor: "rgba(99,102,241,0.12)",
+        background: "rgba(255,255,255,0.035)",
+        borderColor: "rgba(255,255,255,0.08)",
         boxShadow: glow
-          ? "0 0 32px rgba(37,99,235,0.14), 0 2px 20px rgba(0,0,0,0.06)"
-          : "0 2px 20px rgba(0,0,0,0.06)",
+          ? "0 0 40px rgba(0,180,255,0.18), 0 4px 28px rgba(0,0,0,0.55)"
+          : "0 4px 20px rgba(0,0,0,0.45)",
         ...style,
       }}
       onClick={onClick}
@@ -141,14 +141,14 @@ function Avi({ ini, online, size = 10 }: { ini: string; online?: boolean; size?:
     <div className="relative shrink-0" style={{ width: size * 4, height: size * 4 }}>
       <div
         className="w-full h-full rounded-full flex items-center justify-center font-bold text-white select-none"
-        style={{ fontSize: size * 1.2, background: "linear-gradient(135deg,#003EBF,#2563EB)" }}
+        style={{ fontSize: size * 1.2, background: "linear-gradient(135deg,#003EBF,#00B4FF)" }}
       >
         {ini}
       </div>
       {online && (
         <div
           className="absolute bottom-0 right-0 rounded-full border-2"
-          style={{ width: 11, height: 11, background: "#16A34A", borderColor: "#EDF2FF" }}
+          style={{ width: 11, height: 11, background: "#34D399", borderColor: "#07101E" }}
         />
       )}
     </div>
@@ -159,7 +159,7 @@ function Stars({ n }: { n: number }) {
   return (
     <div className="flex gap-0.5 mt-0.5">
       {[1,2,3,4,5].map(i => (
-        <Star key={i} size={9} fill={i<=n?"#D97706":"none"} stroke={i<=n?"#D97706":"#CBD5E1"} />
+        <Star key={i} size={9} fill={i<=n?"#F59E0B":"none"} stroke={i<=n?"#F59E0B":"#253650"} />
       ))}
     </div>
   );
@@ -177,9 +177,9 @@ function Pill({ label, color }: { label: string; color: string }) {
 function ChartTip({ active, payload, label }: { active?: boolean; payload?: {name:string;value:number;color:string}[]; label?: string }) {
   if (!active || !payload?.length) return null;
   return (
-    <div className="rounded-xl border px-3 py-2 text-xs"
-      style={{ background: "rgba(255,255,255,0.97)", backdropFilter: "blur(20px)", borderColor: "rgba(0,0,0,0.09)", boxShadow: "0 4px 16px rgba(0,0,0,0.08)" }}>
-      <p className="mb-1" style={{ color: "#94A3B8" }}>{label}</p>
+    <div className="rounded-xl border border-white/10 px-3 py-2 text-xs"
+      style={{ background: "rgba(8,18,32,0.97)", backdropFilter: "blur(20px)" }}>
+      <p className="text-white/40 mb-1">{label}</p>
       {payload.map(p => <p key={p.name} style={{ color: p.color }}>{p.value} {p.name}</p>)}
     </div>
   );
@@ -198,18 +198,18 @@ const NAV_ITEMS = [
 function NavBar({ page, setPage }: { page: Page; setPage: (p: Page) => void }) {
   return (
     <div className="flex items-center justify-around px-1 py-2 border-t shrink-0"
-      style={{ background: "rgba(255,255,255,0.96)", backdropFilter: "blur(28px)", borderColor: "rgba(0,0,0,0.07)" }}>
+      style={{ background: "rgba(5,11,22,0.97)", backdropFilter: "blur(28px)", borderColor: "rgba(255,255,255,0.07)" }}>
       {NAV_ITEMS.map(({ id, Icon, label }) => {
         const on = id === page;
         return (
           <button key={id} onClick={() => setPage(id)} className="relative flex flex-col items-center gap-1 px-3 py-1.5 rounded-xl">
             {on && (
               <motion.div layoutId="nb" className="absolute inset-0 rounded-xl"
-                style={{ background: "rgba(37,99,235,0.09)" }}
+                style={{ background: "rgba(0,180,255,0.09)" }}
                 transition={{ type: "spring", damping: 26, stiffness: 300 }} />
             )}
-            <Icon size={21} style={{ color: on ? "#2563EB" : "#94A3B8", filter: on ? "drop-shadow(0 0 6px rgba(37,99,235,0.45))" : "none", transition: "all .2s" }} />
-            <span className="text-[10px] font-semibold" style={{ color: on ? "#2563EB" : "#94A3B8", transition: "color .2s" }}>{label}</span>
+            <Icon size={21} style={{ color: on ? "#00B4FF" : "#253650", filter: on ? "drop-shadow(0 0 7px rgba(0,180,255,0.7))" : "none", transition: "all .2s" }} />
+            <span className="text-[10px] font-semibold" style={{ color: on ? "#00B4FF" : "#253650", transition: "color .2s" }}>{label}</span>
           </button>
         );
       })}
@@ -230,33 +230,33 @@ function HomePage({ onStart }: { onStart: (t: AID) => void }) {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-sm font-medium" style={{ color: "#64748B" }}>Samstag, 26. Juli</p>
-          <h1 className="text-[22px] font-black mt-0.5" style={{ color: "#0F172A" }}>Hey, Max 👋</h1>
+          <p className="text-white/35 text-sm font-medium">Samstag, 26. Juli</p>
+          <h1 className="text-white text-[22px] font-black mt-0.5">Hey, Max 👋</h1>
         </div>
         <div className="w-11 h-11 rounded-full flex items-center justify-center text-sm font-black text-white border-2"
-          style={{ background: "linear-gradient(135deg,#1D4ED8,#2563EB)", borderColor: "#2563EB", boxShadow: "0 0 14px rgba(37,99,235,0.30)" }}>
+          style={{ background: "linear-gradient(135deg,#003EBF,#00B4FF)", borderColor: "#00B4FF", boxShadow: "0 0 16px rgba(0,180,255,0.38)" }}>
           MK
         </div>
       </div>
 
       {/* ── Activity starter ── */}
       <Glass glow className="p-4">
-        <p className="text-[10px] uppercase tracking-[.13em] font-semibold mb-3" style={{ color: "#94A3B8" }}>Training starten</p>
+        <p className="text-white/40 text-[10px] uppercase tracking-[.13em] font-semibold mb-3">Training starten</p>
 
         {/* Dropdown */}
         <div className="relative mb-3">
           <button onClick={() => setOpen(!open)}
             className="w-full flex items-center justify-between px-4 py-3 rounded-xl border transition-colors"
-            style={{ background: "rgba(248,250,252,1)", borderColor: "rgba(0,0,0,0.08)" }}>
+            style={{ background: "rgba(255,255,255,0.05)", borderColor: "rgba(255,255,255,0.08)" }}>
             <div className="flex items-center gap-3">
               <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0"
                 style={{ background: act.color + "1E" }}>
                 <AI size={18} style={{ color: act.color }} />
               </div>
-              <span className="font-bold text-[15px]" style={{ color: "#0F172A" }}>{act.label}</span>
+              <span className="text-white font-bold text-[15px]">{act.label}</span>
             </div>
             <motion.span animate={{ rotate: open ? 180 : 0 }} transition={{ duration: 0.18 }}>
-              <ChevronDown size={17} style={{ color: "#94A3B8" }} />
+              <ChevronDown size={17} className="text-white/30" />
             </motion.span>
           </button>
 
@@ -265,21 +265,18 @@ function HomePage({ onStart }: { onStart: (t: AID) => void }) {
               <motion.div initial={{ opacity: 0, y: -6, scale: .97 }} animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: -6, scale: .97 }} transition={{ duration: 0.13 }}
                 className="absolute z-20 w-full top-full mt-2 rounded-2xl border overflow-hidden"
-                style={{ background: "rgba(255,255,255,0.99)", borderColor: "rgba(0,0,0,0.09)", backdropFilter: "blur(24px)", boxShadow: "0 8px 32px rgba(0,0,0,0.10)" }}>
+                style={{ background: "rgba(7,16,30,0.98)", borderColor: "rgba(255,255,255,0.09)", backdropFilter: "blur(24px)" }}>
                 {ACTS.map(a => {
                   const BI = a.icon;
                   return (
                     <button key={a.id} onClick={() => { setSel(a.id); setOpen(false); }}
-                      className="w-full flex items-center gap-3 px-4 py-3 transition-colors"
-                      style={{ background: "transparent" }}
-                      onMouseEnter={e => (e.currentTarget.style.background = "rgba(0,0,0,0.03)")}
-                      onMouseLeave={e => (e.currentTarget.style.background = "transparent")}>
+                      className="w-full flex items-center gap-3 px-4 py-3 hover:bg-white/[.04] transition-colors">
                       <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
                         style={{ background: a.color + "1A" }}>
                         <BI size={15} style={{ color: a.color }} />
                       </div>
-                      <span className="text-[13px] font-medium flex-1 text-left" style={{ color: "#334155" }}>{a.label}</span>
-                      {a.id === sel && <Check size={13} style={{ color: "#2563EB" }} />}
+                      <span className="text-white/80 text-[13px] font-medium flex-1 text-left">{a.label}</span>
+                      {a.id === sel && <Check size={13} style={{ color: "#00B4FF" }} />}
                     </button>
                   );
                 })}
@@ -291,9 +288,9 @@ function HomePage({ onStart }: { onStart: (t: AID) => void }) {
         {/* Start button */}
         <motion.button whileTap={{ scale: .96 }} onClick={() => onStart(sel)}
           className="w-full py-4 rounded-2xl font-extrabold text-[15px] text-white flex items-center justify-center gap-2 relative overflow-hidden tracking-wide"
-          style={{ background: "linear-gradient(130deg,#1D4ED8,#7C3AED 55%,#EC4899)", boxShadow: "0 0 32px rgba(37,99,235,0.35),0 4px 20px rgba(0,0,0,0.12)" }}>
+          style={{ background: "linear-gradient(130deg,#0044CC,#009EEE 55%,#00C8FF)", boxShadow: "0 0 38px rgba(0,180,255,0.45),0 4px 20px rgba(0,0,0,0.5)" }}>
           <div className="absolute inset-0 opacity-25"
-            style={{ background: "radial-gradient(ellipse at 75% 40%,rgba(255,255,255,.40) 0%,transparent 65%)" }} />
+            style={{ background: "radial-gradient(ellipse at 75% 40%,rgba(255,255,255,.35) 0%,transparent 65%)" }} />
           <Play size={17} fill="white" />
           TRAINING STARTEN
         </motion.button>
@@ -303,35 +300,35 @@ function HomePage({ onStart }: { onStart: (t: AID) => void }) {
       <Glass className="p-4 flex items-center gap-4">
         <div className="relative w-[88px] h-[88px] shrink-0">
           <svg viewBox="0 0 88 88" className="w-full h-full -rotate-90">
-            <circle cx="44" cy="44" r="34" fill="none" stroke="rgba(0,0,0,0.07)" strokeWidth="8"/>
+            <circle cx="44" cy="44" r="34" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="8"/>
             <circle cx="44" cy="44" r="34" fill="none" stroke="url(#rdg)" strokeWidth="8"
               strokeDasharray={`${2*Math.PI*34*0.82} ${2*Math.PI*34}`} strokeLinecap="round"/>
             <defs>
               <linearGradient id="rdg" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#1D4ED8"/><stop offset="100%" stopColor="#3B82F6"/>
+                <stop offset="0%" stopColor="#003EBF"/><stop offset="100%" stopColor="#00B4FF"/>
               </linearGradient>
             </defs>
           </svg>
           <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <span className="text-xl font-black leading-none" style={{ color: "#2563EB", fontFamily: MONO }}>82</span>
-            <span className="text-[9px] mt-0.5" style={{ color: "#94A3B8" }}>/ 100</span>
+            <span className="text-xl font-black leading-none" style={{ color: "#00B4FF", fontFamily: MONO }}>82</span>
+            <span className="text-[9px] text-white/30 mt-0.5">/ 100</span>
           </div>
         </div>
         <div className="flex-1">
-          <p className="font-bold text-[14px]" style={{ color: "#0F172A" }}>Trainingsbereitschaft</p>
-          <p className="text-xs mt-1 leading-snug" style={{ color: "#64748B" }}>Guter Tag für intensives Training</p>
-          <div className="mt-3 h-1.5 rounded-full overflow-hidden" style={{ background: "rgba(0,0,0,0.07)" }}>
-            <div className="h-full rounded-full" style={{ width:"82%", background:"linear-gradient(90deg,#1D4ED8,#3B82F6)" }}/>
+          <p className="text-white font-bold text-[14px]">Trainingsbereitschaft</p>
+          <p className="text-white/35 text-xs mt-1 leading-snug">Guter Tag für intensives Training</p>
+          <div className="mt-3 h-1.5 rounded-full bg-white/[.07] overflow-hidden">
+            <div className="h-full rounded-full" style={{ width:"82%", background:"linear-gradient(90deg,#003EBF,#00B4FF)" }}/>
           </div>
-          <p className="text-[10px] mt-1.5 font-semibold" style={{ color:"#2563EB" }}>Sehr gut ↑ vs. gestern</p>
+          <p className="text-[10px] mt-1.5" style={{ color:"#00B4FF" }}>Sehr gut ↑ vs. gestern</p>
         </div>
       </Glass>
 
       {/* Suggested */}
       <div>
         <div className="flex items-center justify-between mb-3">
-          <p className="font-bold text-[14px]" style={{ color: "#0F172A" }}>Vorgeschlagene Trainings</p>
-          <button className="text-xs font-semibold" style={{ color:"#2563EB" }}>Alle</button>
+          <p className="text-white font-bold text-[14px]">Vorgeschlagene Trainings</p>
+          <button className="text-xs font-semibold" style={{ color:"#00B4FF" }}>Alle</button>
         </div>
         <div className="flex gap-3 overflow-x-auto pb-1" style={{ scrollbarWidth:"none" }}>
           {SUGGESTED.map(s => {
@@ -342,8 +339,8 @@ function HomePage({ onStart }: { onStart: (t: AID) => void }) {
                   style={{ background: sa.color + "1A" }}>
                   <SI size={18} style={{ color: sa.color }} />
                 </div>
-                <p className="font-bold text-[13px] leading-tight" style={{ color: "#0F172A" }}>{s.title}</p>
-                <p className="text-[11px] mt-1" style={{ color: "#64748B" }}>{s.dur} · {s.cal} kcal</p>
+                <p className="text-white font-bold text-[13px] leading-tight">{s.title}</p>
+                <p className="text-white/35 text-[11px] mt-1">{s.dur} · {s.cal} kcal</p>
                 <Pill label={s.lvl} color={sa.color} />
               </Glass>
             );
@@ -353,7 +350,7 @@ function HomePage({ onStart }: { onStart: (t: AID) => void }) {
 
       {/* Recent */}
       <div>
-        <p className="font-bold text-[14px] mb-3" style={{ color: "#0F172A" }}>Letzte Aktivitäten</p>
+        <p className="text-white font-bold text-[14px] mb-3">Letzte Aktivitäten</p>
         <div className="flex flex-col gap-2.5">
           {PAST.slice(0,3).map(p => {
             const pa = getA(p.type); const PI = pa.icon;
@@ -364,12 +361,12 @@ function HomePage({ onStart }: { onStart: (t: AID) => void }) {
                   <PI size={17} style={{ color: pa.color }} />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-[13px] font-semibold truncate" style={{ color: "#0F172A" }}>{p.label}</p>
-                  <p className="text-[11px]" style={{ color: "#64748B" }}>{p.date}</p>
+                  <p className="text-white text-[13px] font-semibold truncate">{p.label}</p>
+                  <p className="text-white/35 text-[11px]">{p.date}</p>
                 </div>
                 <div className="text-right shrink-0">
-                  <p className="text-[13px] font-bold" style={{ color: "#0F172A", fontFamily:MONO }}>{p.min} min</p>
-                  <p className="text-[11px]" style={{ color: "#64748B" }}>{p.cal} kcal</p>
+                  <p className="text-white text-[13px] font-bold" style={{ fontFamily:MONO }}>{p.min} min</p>
+                  <p className="text-white/35 text-[11px]">{p.cal} kcal</p>
                 </div>
               </Glass>
             );
@@ -399,25 +396,25 @@ function WorkoutScreen({ type, onStop }: { type: AID; onStop: () => void }) {
   const paceStr = km > 0.01 ? `${Math.floor((elapsed/60)/km)}:${p2(Math.floor(((elapsed/60)/km%1)*60))}` : "–";
 
   const metrics = [
-    { label:"Distanz",      val: act.speedFactor > 0 ? `${km.toFixed(2)}` : "–", unit:"km",     col:"#2563EB" },
-    { label:"Pace",         val: paceStr,                                          unit:"min/km", col:"#16A34A" },
-    { label:"Herzfrequenz", val: `${bpm}`,                                         unit:"bpm",    col:"#EA580C" },
-    { label:"Kalorien",     val: `${cal}`,                                         unit:"kcal",   col:"#7C3AED" },
+    { label:"Distanz",      val: act.speedFactor > 0 ? `${km.toFixed(2)}` : "–", unit:"km",     col:"#00B4FF" },
+    { label:"Pace",         val: paceStr,                                          unit:"min/km", col:"#4ADE80" },
+    { label:"Herzfrequenz", val: `${bpm}`,                                         unit:"bpm",    col:"#F97316" },
+    { label:"Kalorien",     val: `${cal}`,                                         unit:"kcal",   col:"#A78BFA" },
   ];
 
   return (
     <div className="flex flex-col h-full"
-      style={{ background:"linear-gradient(160deg,rgba(37,99,235,0.08) 0%,#F5F8FF 45%)" }}>
+      style={{ background:"linear-gradient(160deg,rgba(0,60,190,0.13) 0%,#060D1B 45%)" }}>
       {/* Top */}
       <div className="flex items-center justify-between px-5 pt-10 pb-3">
-        <button onClick={onStop} className="w-9 h-9 rounded-full flex items-center justify-center border"
-          style={{ background:"rgba(0,0,0,0.04)", borderColor:"rgba(0,0,0,0.10)" }}>
-          <X size={16} style={{ color: "#64748B" }} />
+        <button onClick={onStop} className="w-9 h-9 rounded-full flex items-center justify-center border border-white/[.09]"
+          style={{ background:"rgba(255,255,255,0.06)" }}>
+          <X size={16} className="text-white/60" />
         </button>
         <div className="flex items-center gap-2">
           <motion.div animate={{ opacity:[1,.3,1] }} transition={{ duration:1.4,repeat:Infinity }}
             className="w-2 h-2 rounded-full bg-red-500" />
-          <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#94A3B8" }}>Live</span>
+          <span className="text-white/50 text-xs font-bold uppercase tracking-widest">Live</span>
         </div>
         <div className="w-9" />
       </div>
@@ -431,27 +428,27 @@ function WorkoutScreen({ type, onStop }: { type: AID; onStop: () => void }) {
           style={{ background: act.color + "1E" }}>
           <WI size={26} style={{ color: act.color }} />
         </motion.div>
-        <p className="text-sm font-semibold" style={{ color: "#64748B" }}>{act.label}</p>
+        <p className="text-white/50 text-sm font-semibold">{act.label}</p>
       </div>
 
       {/* Timer */}
       <div className="flex flex-col items-center mb-8">
-        <p className="text-[10px] uppercase tracking-[.18em] font-semibold mb-2" style={{ color: "#94A3B8" }}>Aktive Zeit</p>
+        <p className="text-white/25 text-[10px] uppercase tracking-[.18em] font-semibold mb-2">Aktive Zeit</p>
         <motion.div key={Math.floor(elapsed/60)} initial={{ scale:1.05 }} animate={{ scale:1 }} transition={{ duration:.28 }}
-          className="text-[72px] font-black tracking-tight leading-none tabular-nums"
-          style={{ color: "#0F172A", fontFamily:MONO }}>
+          className="text-[72px] font-black text-white tracking-tight leading-none tabular-nums"
+          style={{ fontFamily:MONO }}>
           {fmtT(elapsed)}
         </motion.div>
-        <p className="text-xs mt-2" style={{ color: paused ? "#94A3B8" : "#CBD5E1" }}>{paused ? "⏸ Pausiert" : "Läuft…"}</p>
+        <p className="text-white/20 text-xs mt-2">{paused ? "⏸ Pausiert" : "Läuft…"}</p>
       </div>
 
       {/* Metrics */}
       <div className="grid grid-cols-2 gap-3 px-5 mb-8">
         {metrics.map(m => (
           <Glass key={m.label} className="p-3.5 text-center">
-            <p className="text-[10px] uppercase tracking-wider mb-1.5 font-medium" style={{ color: "#64748B" }}>{m.label}</p>
+            <p className="text-white/35 text-[10px] uppercase tracking-wider mb-1.5 font-medium">{m.label}</p>
             <p className="text-[26px] font-black leading-none" style={{ color:m.col, fontFamily:MONO }}>{m.val}</p>
-            <p className="text-[10px] mt-1" style={{ color: "#94A3B8" }}>{m.unit}</p>
+            <p className="text-white/25 text-[10px] mt-1">{m.unit}</p>
           </Glass>
         ))}
       </div>
@@ -459,15 +456,13 @@ function WorkoutScreen({ type, onStop }: { type: AID; onStop: () => void }) {
       {/* Controls */}
       <div className="flex items-center justify-center gap-8 mt-auto mb-12">
         <motion.button whileTap={{ scale:.91 }} onClick={() => setPaused(!paused)}
-          className="w-16 h-16 rounded-full flex items-center justify-center border"
-          style={{ background:"rgba(0,0,0,0.05)", borderColor:"rgba(0,0,0,0.10)" }}>
-          {paused
-            ? <Play size={22} fill="#0F172A" style={{ color: "#0F172A" }}/>
-            : <Pause size={22} style={{ color: "#0F172A" }}/>}
+          className="w-16 h-16 rounded-full flex items-center justify-center border border-white/[.12]"
+          style={{ background:"rgba(255,255,255,0.07)" }}>
+          {paused ? <Play size={22} fill="white" className="text-white"/> : <Pause size={22} className="text-white"/>}
         </motion.button>
         <motion.button whileTap={{ scale:.91 }} onClick={onStop}
           className="w-20 h-20 rounded-full flex items-center justify-center"
-          style={{ background:"linear-gradient(135deg,#B80040,#FF1155)", boxShadow:"0 0 28px rgba(255,30,80,0.40)" }}>
+          style={{ background:"linear-gradient(135deg,#B80040,#FF1155)", boxShadow:"0 0 32px rgba(255,30,80,0.45)" }}>
           <Square size={22} fill="white" className="text-white"/>
         </motion.button>
         <div className="w-16 h-16"/>
@@ -493,12 +488,12 @@ function SummaryPage() {
     <>
       <div className="flex flex-col gap-4 px-4 pt-6 pb-24">
         <div className="flex items-center justify-between">
-          <h1 className="text-[22px] font-black" style={{ color: "#0F172A" }}>Aktivitäten</h1>
-          <div className="flex rounded-xl overflow-hidden border" style={{ borderColor:"rgba(0,0,0,0.08)" }}>
+          <h1 className="text-white text-[22px] font-black">Aktivitäten</h1>
+          <div className="flex rounded-xl overflow-hidden border" style={{ borderColor:"rgba(255,255,255,0.08)" }}>
             {(["week","month"] as const).map(p => (
               <button key={p} onClick={() => setPeriod(p)}
                 className="px-3.5 py-1.5 text-xs font-bold transition-colors"
-                style={{ background: period===p ? "rgba(37,99,235,0.10)" : "transparent", color: period===p ? "#2563EB" : "#94A3B8" }}>
+                style={{ background: period===p ? "rgba(0,180,255,0.18)" : "transparent", color: period===p ? "#00B4FF" : "#334E68" }}>
                 {p==="week" ? "Woche" : "Monat"}
               </button>
             ))}
@@ -509,9 +504,9 @@ function SummaryPage() {
         <div className="grid grid-cols-3 gap-2">
           {[{l:"Distanz",v:totKm,u:"km"},{l:"Kalorien",v:totCal,u:"kcal"},{l:"Zeit",v:totMin,u:"min"}].map(s => (
             <Glass key={s.l} className="p-3 text-center">
-              <p className="font-black text-[16px] leading-tight" style={{ color: "#0F172A", fontFamily:MONO }}>{s.v}</p>
-              <p className="text-[9px] uppercase tracking-wide mt-0.5" style={{ color: "#94A3B8" }}>{s.u}</p>
-              <p className="text-[10px] mt-0.5" style={{ color: "#64748B" }}>{s.l}</p>
+              <p className="text-white font-black text-[16px] leading-tight" style={{ fontFamily:MONO }}>{s.v}</p>
+              <p className="text-white/30 text-[9px] uppercase tracking-wide mt-0.5">{s.u}</p>
+              <p className="text-white/45 text-[10px] mt-0.5">{s.l}</p>
             </Glass>
           ))}
         </div>
@@ -519,14 +514,14 @@ function SummaryPage() {
         {/* Chart */}
         <Glass className="p-4">
           <div className="flex items-center justify-between mb-3">
-            <p className="text-[10px] uppercase tracking-[.12em] font-semibold" style={{ color: "#94A3B8" }}>
+            <p className="text-white/40 text-[10px] uppercase tracking-[.12em] font-semibold">
               {period==="week" ? "Diese Woche" : "Diesen Monat"}
             </p>
             <div className="flex gap-1.5">
               {(["km","cal"] as const).map(m => (
                 <button key={m} onClick={() => setMetric(m)}
                   className="text-[11px] px-2.5 py-1 rounded-lg font-semibold transition-colors"
-                  style={{ background: metric===m ? "rgba(37,99,235,0.10)" : "transparent", color: metric===m ? "#2563EB" : "#94A3B8" }}>
+                  style={{ background: metric===m ? "rgba(0,180,255,0.18)" : "transparent", color: metric===m ? "#00B4FF" : "#334E68" }}>
                   {m}
                 </button>
               ))}
@@ -536,23 +531,23 @@ function SummaryPage() {
             <AreaChart data={data} margin={{ top:4,right:4,left:-22,bottom:0 }}>
               <defs>
                 <linearGradient id="bg1" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#2563EB" stopOpacity={0.20}/>
-                  <stop offset="100%" stopColor="#2563EB" stopOpacity={0}/>
+                  <stop offset="0%" stopColor="#00B4FF" stopOpacity={0.35}/>
+                  <stop offset="100%" stopColor="#00B4FF" stopOpacity={0}/>
                 </linearGradient>
               </defs>
-              <XAxis dataKey={xKey} tick={{ fill:"#94A3B8",fontSize:10 }} axisLine={false} tickLine={false}/>
-              <YAxis tick={{ fill:"#94A3B8",fontSize:10 }} axisLine={false} tickLine={false}/>
+              <XAxis dataKey={xKey} tick={{ fill:"#2A3E55",fontSize:10 }} axisLine={false} tickLine={false}/>
+              <YAxis tick={{ fill:"#2A3E55",fontSize:10 }} axisLine={false} tickLine={false}/>
               <Tooltip content={<ChartTip/>}/>
-              <Area type="monotone" dataKey={metric} stroke="#2563EB" strokeWidth={2} fill="url(#bg1)"
+              <Area type="monotone" dataKey={metric} stroke="#00B4FF" strokeWidth={2} fill="url(#bg1)"
                 name={metric==="km"?"km":"kcal"} dot={false}
-                activeDot={{ r:4,fill:"#2563EB",stroke:"#EDF2FF" }}/>
+                activeDot={{ r:4,fill:"#00B4FF",stroke:"#001630" }}/>
             </AreaChart>
           </ResponsiveContainer>
         </Glass>
 
         {/* List */}
         <div>
-          <p className="font-bold text-[14px] mb-3" style={{ color: "#0F172A" }}>Alle Aktivitäten</p>
+          <p className="text-white font-bold text-[14px] mb-3">Alle Aktivitäten</p>
           <div className="flex flex-col gap-2.5">
             {PAST.map(p => {
               const pa = getA(p.type); const PI = pa.icon;
@@ -564,15 +559,15 @@ function SummaryPage() {
                       <PI size={17} style={{ color:pa.color }}/>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-[13px] font-semibold" style={{ color: "#0F172A" }}>{p.label}</p>
-                      <p className="text-[10px]" style={{ color: "#64748B" }}>{p.date}</p>
+                      <p className="text-white text-[13px] font-semibold">{p.label}</p>
+                      <p className="text-white/35 text-[10px]">{p.date}</p>
                       <Stars n={p.feel}/>
                     </div>
                     <div className="text-right shrink-0 mr-1">
-                      <p className="text-[13px] font-bold" style={{ color: "#0F172A", fontFamily:MONO }}>{p.min} min</p>
-                      <p className="text-[11px]" style={{ color: "#64748B" }}>{p.cal} kcal</p>
+                      <p className="text-white text-[13px] font-bold" style={{ fontFamily:MONO }}>{p.min} min</p>
+                      <p className="text-white/35 text-[11px]">{p.cal} kcal</p>
                     </div>
-                    <ChevronRight size={13} style={{ color: "#CBD5E1" }} className="shrink-0"/>
+                    <ChevronRight size={13} className="text-white/15 shrink-0"/>
                   </Glass>
                 </motion.button>
               );
@@ -586,14 +581,14 @@ function SummaryPage() {
         {detail && (
           <motion.div initial={{ opacity:0 }} animate={{ opacity:1 }} exit={{ opacity:0 }}
             className="fixed inset-0 z-50 flex flex-col justify-end max-w-[390px] mx-auto"
-            style={{ background:"rgba(15,23,42,0.40)", backdropFilter:"blur(8px)" }}
+            style={{ background:"rgba(2,7,16,0.76)", backdropFilter:"blur(8px)" }}
             onClick={() => setDetail(null)}>
             <motion.div initial={{ y:320 }} animate={{ y:0 }} exit={{ y:320 }}
               transition={{ type:"spring",damping:30,stiffness:320 }}
               className="rounded-t-3xl border-t p-5 pb-9"
-              style={{ background:"rgba(255,255,255,0.99)", backdropFilter:"blur(28px)", borderColor:"rgba(0,0,0,0.08)" }}
+              style={{ background:"rgba(7,15,28,0.99)", backdropFilter:"blur(28px)", borderColor:"rgba(255,255,255,0.08)" }}
               onClick={e => e.stopPropagation()}>
-              <div className="w-10 h-1 rounded-full mx-auto mb-5" style={{ background: "rgba(0,0,0,0.10)" }}/>
+              <div className="w-10 h-1 rounded-full bg-white/15 mx-auto mb-5"/>
               <div className="flex items-center justify-between mb-5">
                 <div className="flex items-center gap-3">
                   {(() => { const da = getA(detail.type); const DI = da.icon; return (
@@ -602,37 +597,37 @@ function SummaryPage() {
                     </div>
                   ); })()}
                   <div>
-                    <p className="font-bold text-[15px]" style={{ color: "#0F172A" }}>{detail.label}</p>
-                    <p className="text-[11px]" style={{ color: "#64748B" }}>{detail.date}</p>
+                    <p className="text-white font-bold text-[15px]">{detail.label}</p>
+                    <p className="text-white/35 text-[11px]">{detail.date}</p>
                   </div>
                 </div>
                 <button onClick={() => setDetail(null)}
-                  className="w-8 h-8 rounded-full flex items-center justify-center border"
-                  style={{ background:"rgba(0,0,0,0.04)", borderColor:"rgba(0,0,0,0.08)" }}>
-                  <X size={14} style={{ color: "#94A3B8" }}/>
+                  className="w-8 h-8 rounded-full flex items-center justify-center border border-white/[.08]"
+                  style={{ background:"rgba(255,255,255,0.04)" }}>
+                  <X size={14} className="text-white/50"/>
                 </button>
               </div>
 
               <div className="grid grid-cols-2 gap-2.5 mb-5">
                 {[
-                  { l:"Dauer",       v:`${detail.min} min`,                      c:"#2563EB" },
-                  { l:"Distanz",     v:detail.km>0?`${detail.km} km`:"–",        c:"#16A34A" },
-                  { l:"Herzfreq.",   v:`${detail.bpm} bpm`,                      c:"#EA580C" },
-                  { l:"Kalorien",    v:`${detail.cal} kcal`,                     c:"#7C3AED" },
-                  { l:"Pace",        v:detail.pace,                              c:"#0284C7" },
-                  { l:"Wertung",     v:`${detail.feel} / 5`,                     c:"#D97706" },
+                  { l:"Dauer",       v:`${detail.min} min`,                      c:"#00B4FF" },
+                  { l:"Distanz",     v:detail.km>0?`${detail.km} km`:"–",        c:"#4ADE80" },
+                  { l:"Herzfreq.",   v:`${detail.bpm} bpm`,                      c:"#F97316" },
+                  { l:"Kalorien",    v:`${detail.cal} kcal`,                     c:"#A78BFA" },
+                  { l:"Pace",        v:detail.pace,                              c:"#60A5FA" },
+                  { l:"Wertung",     v:`${detail.feel} / 5`,                     c:"#F59E0B" },
                 ].map(m => (
-                  <div key={m.l} className="rounded-xl p-3 border"
-                    style={{ background:"rgba(241,245,249,0.80)", borderColor:"rgba(0,0,0,0.06)" }}>
-                    <p className="text-[10px] uppercase tracking-wider mb-1.5 font-medium" style={{ color: "#94A3B8" }}>{m.l}</p>
+                  <div key={m.l} className="rounded-xl p-3 border border-white/[.06]"
+                    style={{ background:"rgba(255,255,255,0.03)" }}>
+                    <p className="text-white/35 text-[10px] uppercase tracking-wider mb-1.5 font-medium">{m.l}</p>
                     <p className="text-[18px] font-black leading-none" style={{ color:m.c, fontFamily:MONO }}>{m.v}</p>
                   </div>
                 ))}
               </div>
 
               {/* Mini HR chart */}
-              <div className="rounded-xl border p-3" style={{ background:"rgba(241,245,249,0.80)", borderColor:"rgba(0,0,0,0.06)" }}>
-                <p className="text-[10px] uppercase tracking-wider mb-2.5 font-medium" style={{ color: "#94A3B8" }}>Herzfrequenz-Verlauf</p>
+              <div className="rounded-xl border border-white/[.06] p-3" style={{ background:"rgba(255,255,255,0.02)" }}>
+                <p className="text-white/35 text-[10px] uppercase tracking-wider mb-2.5 font-medium">Herzfrequenz-Verlauf</p>
                 <ResponsiveContainer width="100%" height={58}>
                   <AreaChart
                     data={[{t:"0",v:95},{t:"5",v:detail.bpm-22},{t:"10",v:detail.bpm-8},
@@ -641,11 +636,11 @@ function SummaryPage() {
                     margin={{ top:2,right:4,left:-36,bottom:0 }}>
                     <defs>
                       <linearGradient id="hrg" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="#EA580C" stopOpacity={0.22}/>
-                        <stop offset="100%" stopColor="#EA580C" stopOpacity={0}/>
+                        <stop offset="0%" stopColor="#F97316" stopOpacity={0.28}/>
+                        <stop offset="100%" stopColor="#F97316" stopOpacity={0}/>
                       </linearGradient>
                     </defs>
-                    <Area type="monotone" dataKey="v" stroke="#EA580C" strokeWidth={1.5} fill="url(#hrg)" dot={false}/>
+                    <Area type="monotone" dataKey="v" stroke="#F97316" strokeWidth={1.5} fill="url(#hrg)" dot={false}/>
                   </AreaChart>
                 </ResponsiveContainer>
               </div>
@@ -663,49 +658,49 @@ function HealthPage() {
   const steps = 7842, stepsGoal = 10000, pct = steps / stepsGoal;
   const circ = 2 * Math.PI * 34;
   const sleep = [
-    { n:"Leicht", h:1.5, c:"#3B82F6" },
-    { n:"Tief",   h:2.2, c:"#1D4ED8" },
-    { n:"REM",    h:1.8, c:"#7C3AED" },
-    { n:"Wach",   h:0.5, c:"#CBD5E1" },
+    { n:"Leicht", h:1.5, c:"#60A5FA" },
+    { n:"Tief",   h:2.2, c:"#0047CC" },
+    { n:"REM",    h:1.8, c:"#A78BFA" },
+    { n:"Wach",   h:0.5, c:"#2A3E55" },
   ];
 
   return (
     <div className="flex flex-col gap-4 px-4 pt-6 pb-24">
-      <h1 className="text-[22px] font-black" style={{ color: "#0F172A" }}>Gesundheit</h1>
+      <h1 className="text-white text-[22px] font-black">Gesundheit</h1>
 
       {/* Steps */}
       <Glass className="p-4 flex items-center gap-4">
         <div className="relative w-[88px] h-[88px] shrink-0">
           <svg viewBox="0 0 88 88" className="w-full h-full -rotate-90">
-            <circle cx="44" cy="44" r="34" fill="none" stroke="rgba(0,0,0,0.07)" strokeWidth="8"/>
+            <circle cx="44" cy="44" r="34" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="8"/>
             <circle cx="44" cy="44" r="34" fill="none" stroke="url(#sg)" strokeWidth="8"
               strokeDasharray={`${circ*pct} ${circ}`} strokeLinecap="round"/>
             <defs>
               <linearGradient id="sg" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#1D4ED8"/><stop offset="100%" stopColor="#3B82F6"/>
+                <stop offset="0%" stopColor="#003EBF"/><stop offset="100%" stopColor="#00B4FF"/>
               </linearGradient>
             </defs>
           </svg>
           <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <Footprints size={13} style={{ color:"#2563EB" }}/>
-            <span className="font-black text-[11px] leading-none mt-0.5" style={{ color: "#0F172A", fontFamily:MONO }}>
+            <Footprints size={13} style={{ color:"#00B4FF" }}/>
+            <span className="text-white font-black text-[11px] leading-none mt-0.5" style={{ fontFamily:MONO }}>
               {steps.toLocaleString("de")}
             </span>
           </div>
         </div>
         <div className="flex-1">
-          <p className="font-bold text-[14px]" style={{ color: "#0F172A" }}>Schritte heute</p>
-          <p className="text-xs mt-0.5" style={{ color: "#64748B" }}>Ziel: {stepsGoal.toLocaleString("de")}</p>
+          <p className="text-white font-bold text-[14px]">Schritte heute</p>
+          <p className="text-white/35 text-xs mt-0.5">Ziel: {stepsGoal.toLocaleString("de")}</p>
           <div className="mt-2.5">
             <div className="flex justify-between text-[10px] mb-1.5">
-              <span style={{ color: "#64748B" }}>Fortschritt</span>
-              <span style={{ color:"#2563EB" }}>{Math.round(pct*100)}%</span>
+              <span className="text-white/35">Fortschritt</span>
+              <span style={{ color:"#00B4FF" }}>{Math.round(pct*100)}%</span>
             </div>
-            <div className="h-1.5 rounded-full overflow-hidden" style={{ background: "rgba(0,0,0,0.07)" }}>
-              <div className="h-full rounded-full" style={{ width:`${pct*100}%`, background:"linear-gradient(90deg,#1D4ED8,#3B82F6)" }}/>
+            <div className="h-1.5 rounded-full bg-white/[.07]">
+              <div className="h-full rounded-full" style={{ width:`${pct*100}%`, background:"linear-gradient(90deg,#003EBF,#00B4FF)" }}/>
             </div>
           </div>
-          <p className="text-[10px] mt-2" style={{ color: "#94A3B8" }}>≈ {(steps*0.000762).toFixed(1)} km · {Math.floor(steps*0.04)} kcal</p>
+          <p className="text-white/25 text-[10px] mt-2">≈ {(steps*0.000762).toFixed(1)} km · {Math.floor(steps*0.04)} kcal</p>
         </div>
       </Glass>
 
@@ -713,16 +708,16 @@ function HealthPage() {
       <Glass className="p-4">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
-            <Moon size={15} style={{ color:"#7C3AED" }}/>
-            <p className="font-bold text-[14px]" style={{ color: "#0F172A" }}>Schlaf</p>
+            <Moon size={15} style={{ color:"#A78BFA" }}/>
+            <p className="text-white font-bold text-[14px]">Schlaf</p>
           </div>
-          <Pill label="Gut" color="#16A34A"/>
+          <Pill label="Gut" color="#4ADE80"/>
         </div>
         <div className="flex items-baseline gap-0.5 mb-4">
-          <span className="text-4xl font-black" style={{ color: "#0F172A", fontFamily:MONO }}>6</span>
-          <span className="text-sm mb-0.5" style={{ color: "#64748B" }}>h </span>
-          <span className="text-4xl font-black" style={{ color: "#0F172A", fontFamily:MONO }}>00</span>
-          <span className="text-sm mb-0.5" style={{ color: "#64748B" }}> min</span>
+          <span className="text-4xl font-black text-white" style={{ fontFamily:MONO }}>6</span>
+          <span className="text-white/40 text-sm mb-0.5">h </span>
+          <span className="text-4xl font-black text-white" style={{ fontFamily:MONO }}>00</span>
+          <span className="text-white/40 text-sm mb-0.5"> min</span>
         </div>
         <div className="flex h-3 rounded-full overflow-hidden gap-0.5">
           {sleep.map(s => (
@@ -733,7 +728,7 @@ function HealthPage() {
           {sleep.map(s => (
             <div key={s.n} className="flex items-center gap-1">
               <div className="w-2 h-2 rounded-full" style={{ background:s.c }}/>
-              <span className="text-[10px]" style={{ color: "#64748B" }}>{s.n}</span>
+              <span className="text-white/35 text-[10px]">{s.n}</span>
             </div>
           ))}
         </div>
@@ -742,19 +737,19 @@ function HealthPage() {
       {/* Activity + Stress */}
       <div className="grid grid-cols-2 gap-3">
         {[
-          { label:"Aktivitätslevel", val:74, text:"Aktiv",    Icon:Activity, col:"#16A34A", grad:"#059669,#16A34A" },
-          { label:"Stresslevel",     val:32, text:"Niedrig",  Icon:Brain,    col:"#DB2777", grad:"#9D174D,#DB2777" },
+          { label:"Aktivitätslevel", val:74, text:"Aktiv",    Icon:Activity, col:"#4ADE80", grad:"#059669,#4ADE80" },
+          { label:"Stresslevel",     val:32, text:"Niedrig",  Icon:Brain,    col:"#F472B6", grad:"#BE185D,#F472B6" },
         ].map(c => {
           const CI = c.Icon;
           return (
             <Glass key={c.label} className="p-3.5">
               <div className="flex items-center gap-1.5 mb-2.5">
                 <CI size={13} style={{ color:c.col }}/>
-                <p className="text-[11px] font-semibold" style={{ color: "#64748B" }}>{c.label}</p>
+                <p className="text-white/50 text-[11px] font-semibold">{c.label}</p>
               </div>
-              <p className="text-3xl font-black mb-0.5 leading-none" style={{ color: "#0F172A", fontFamily:MONO }}>{c.val}</p>
+              <p className="text-3xl font-black text-white mb-0.5 leading-none" style={{ fontFamily:MONO }}>{c.val}</p>
               <p className="text-xs font-semibold mb-2.5" style={{ color:c.col }}>{c.text}</p>
-              <div className="h-1.5 rounded-full overflow-hidden" style={{ background: "rgba(0,0,0,0.07)" }}>
+              <div className="h-1.5 rounded-full bg-white/[.07]">
                 <div className="h-full rounded-full" style={{ width:`${c.val}%`, background:`linear-gradient(90deg,${c.grad})` }}/>
               </div>
             </Glass>
@@ -765,35 +760,35 @@ function HealthPage() {
       {/* Calories */}
       <Glass className="p-4">
         <div className="flex items-center gap-2 mb-4">
-          <Flame size={15} style={{ color:"#EA580C" }}/>
-          <p className="font-bold text-[14px]" style={{ color: "#0F172A" }}>Kalorien heute</p>
+          <Flame size={15} style={{ color:"#F97316" }}/>
+          <p className="text-white font-bold text-[14px]">Kalorien heute</p>
         </div>
         <div className="flex justify-around text-center">
-          {[{l:"Verbrannt",v:1840,c:"#EA580C"},{l:"Aufgenommen",v:2200,c:"#0284C7"},{l:"Netto",v:360,c:"#16A34A"}].map(c => (
+          {[{l:"Verbrannt",v:1840,c:"#F97316"},{l:"Aufgenommen",v:2200,c:"#60A5FA"},{l:"Netto",v:360,c:"#4ADE80"}].map(c => (
             <div key={c.l}>
               <p className="text-[22px] font-black leading-none" style={{ color:c.c, fontFamily:MONO }}>{c.v}</p>
-              <p className="text-[9px] mt-1.5 uppercase tracking-wide" style={{ color: "#94A3B8" }}>{c.l}</p>
+              <p className="text-white/30 text-[9px] mt-1.5 uppercase tracking-wide">{c.l}</p>
             </div>
           ))}
         </div>
-        <div className="mt-4 h-2 rounded-full overflow-hidden" style={{ background: "rgba(0,0,0,0.07)" }}>
-          <div className="h-full rounded-full" style={{ width:`${(1840/2200)*100}%`, background:"linear-gradient(90deg,#C2410C,#EA580C)" }}/>
+        <div className="mt-4 h-2 rounded-full bg-white/[.07] overflow-hidden">
+          <div className="h-full rounded-full" style={{ width:`${(1840/2200)*100}%`, background:"linear-gradient(90deg,#C2410C,#F97316)" }}/>
         </div>
       </Glass>
 
       {/* HRV */}
       <Glass className="p-4 flex items-center gap-4">
         <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
-          style={{ background:"rgba(239,68,68,0.12)" }}>
-          <Heart size={22} style={{ color:"#EF4444" }} fill="rgba(239,68,68,0.28)"/>
+          style={{ background:"rgba(239,68,68,0.14)" }}>
+          <Heart size={22} style={{ color:"#EF4444" }} fill="rgba(239,68,68,0.35)"/>
         </div>
         <div className="flex-1">
-          <p className="font-bold text-[13px]" style={{ color: "#0F172A" }}>Herzratenvariabilität</p>
-          <p className="text-xs mt-0.5" style={{ color: "#64748B" }}>Ruhezustand · Heute Nacht</p>
+          <p className="text-white font-bold text-[13px]">Herzratenvariabilität</p>
+          <p className="text-white/35 text-xs mt-0.5">Ruhezustand · Heute Nacht</p>
         </div>
         <div className="text-right">
-          <p className="text-[26px] font-black leading-none" style={{ color: "#0F172A", fontFamily:MONO }}>58</p>
-          <p className="text-xs" style={{ color: "#94A3B8" }}>ms</p>
+          <p className="text-[26px] font-black text-white leading-none" style={{ fontFamily:MONO }}>58</p>
+          <p className="text-white/30 text-xs">ms</p>
         </div>
       </Glass>
     </div>
@@ -814,43 +809,43 @@ function ProgressPage() {
 
   return (
     <div className="flex flex-col gap-4 px-4 pt-6 pb-24">
-      <h1 className="text-[22px] font-black" style={{ color: "#0F172A" }}>Fortschritt</h1>
+      <h1 className="text-white text-[22px] font-black">Fortschritt</h1>
 
       {/* Streak */}
       <Glass glow className="p-4 flex items-center gap-4"
-        style={{ boxShadow:"0 0 32px rgba(249,115,22,0.12),0 2px 20px rgba(0,0,0,0.06)" }}>
+        style={{ boxShadow:"0 0 40px rgba(249,115,22,0.15),0 4px 28px rgba(0,0,0,0.5)" }}>
         <div className="w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 text-center"
-          style={{ background:"linear-gradient(135deg,rgba(249,115,22,0.20),rgba(239,68,68,0.15))", boxShadow:"0 0 20px rgba(249,115,22,0.22)" }}>
+          style={{ background:"linear-gradient(135deg,rgba(249,115,22,0.28),rgba(239,68,68,0.22))", boxShadow:"0 0 24px rgba(249,115,22,0.3)" }}>
           <div>
-            <p className="text-[28px] font-black leading-none" style={{ color: "#0F172A", fontFamily:MONO }}>21</p>
-            <p className="text-[9px] font-bold uppercase tracking-widest" style={{ color:"#EA580C" }}>Tage</p>
+            <p className="text-[28px] font-black text-white leading-none" style={{ fontFamily:MONO }}>21</p>
+            <p className="text-[9px] font-bold uppercase tracking-widest" style={{ color:"#F97316" }}>Tage</p>
           </div>
         </div>
         <div>
-          <p className="font-bold text-[15px]" style={{ color: "#0F172A" }}>Aktive Serie 🔥</p>
-          <p className="text-xs mt-0.5" style={{ color: "#64748B" }}>21 Tage in Folge trainiert</p>
-          <p className="text-[11px] font-semibold mt-1.5" style={{ color:"#EA580C" }}>Persönlicher Rekord!</p>
+          <p className="text-white font-bold text-[15px]">Aktive Serie 🔥</p>
+          <p className="text-white/35 text-xs mt-0.5">21 Tage in Folge trainiert</p>
+          <p className="text-[11px] font-semibold mt-1.5" style={{ color:"#F97316" }}>Persönlicher Rekord!</p>
         </div>
       </Glass>
 
       {/* Week dots */}
       <Glass className="p-4">
-        <p className="text-[10px] uppercase tracking-[.12em] font-semibold mb-3" style={{ color: "#94A3B8" }}>Diese Woche</p>
+        <p className="text-white/35 text-[10px] uppercase tracking-[.12em] font-semibold mb-3">Diese Woche</p>
         <div className="flex justify-between">
           {days.map((d,i) => {
             const hit = done[i] && i <= today;
             const miss = !done[i] && i <= today;
             return (
               <div key={d} className="flex flex-col items-center gap-2">
-                <span className="text-[10px] font-medium" style={{ color: "#94A3B8" }}>{d}</span>
+                <span className="text-white/30 text-[10px] font-medium">{d}</span>
                 <div className="w-8 h-8 rounded-full flex items-center justify-center"
                   style={{
-                    background: hit ? "linear-gradient(135deg,#1D4ED8,#3B82F6)" : "rgba(0,0,0,0.05)",
-                    border: i === today ? "2px solid #2563EB" : "none",
-                    boxShadow: hit ? "0 0 12px rgba(37,99,235,0.35)" : "none",
+                    background: hit ? "linear-gradient(135deg,#003EBF,#00B4FF)" : "rgba(255,255,255,0.04)",
+                    border: i === today ? "2px solid #00B4FF" : "none",
+                    boxShadow: hit ? "0 0 14px rgba(0,180,255,0.45)" : "none",
                   }}>
                   {hit && <Check size={13} className="text-white"/>}
-                  {miss && <X size={11} style={{ color: "#94A3B8" }}/>}
+                  {miss && <X size={11} className="text-white/20"/>}
                 </div>
               </div>
             );
@@ -860,28 +855,28 @@ function ProgressPage() {
 
       {/* Goals */}
       <div>
-        <p className="font-bold text-[14px] mb-3" style={{ color: "#0F172A" }}>Wochenziele</p>
+        <p className="text-white font-bold text-[14px] mb-3">Wochenziele</p>
         <div className="flex flex-col gap-2.5">
           {GOALS.map(g => {
             const p = Math.min(g.cur / g.max, 1);
             return (
               <Glass key={g.id} className="p-4">
                 <div className="flex items-center justify-between mb-2.5">
-                  <p className="text-[13px] font-semibold" style={{ color: "#0F172A" }}>{g.label}</p>
+                  <p className="text-white text-[13px] font-semibold">{g.label}</p>
                   <span className="text-[11px] font-bold" style={{ color:g.color }}>{Math.round(p*100)}%</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="flex-1 h-2 rounded-full overflow-hidden" style={{ background: "rgba(0,0,0,0.07)" }}>
+                  <div className="flex-1 h-2 rounded-full bg-white/[.07] overflow-hidden">
                     <motion.div initial={{ width:0 }} animate={{ width:`${p*100}%` }}
                       transition={{ duration:0.9,ease:"easeOut",delay:0.1 }}
                       className="h-full rounded-full"
                       style={{ background:`linear-gradient(90deg,${g.color}55,${g.color})` }}/>
                   </div>
-                  <span className="text-[10px] shrink-0" style={{ color: "#94A3B8", fontFamily:MONO }}>
+                  <span className="text-white/25 text-[10px] shrink-0" style={{ fontFamily:MONO }}>
                     {g.cur}/{g.max}
                   </span>
                 </div>
-                <p className="text-[10px] mt-1" style={{ color: "#94A3B8" }}>{g.unit}</p>
+                <p className="text-white/25 text-[10px] mt-1">{g.unit}</p>
               </Glass>
             );
           })}
@@ -890,26 +885,26 @@ function ProgressPage() {
 
       {/* Trend chart */}
       <Glass className="p-4">
-        <p className="text-[10px] uppercase tracking-[.12em] font-semibold mb-3" style={{ color: "#94A3B8" }}>4-Wochen Trend · Distanz</p>
+        <p className="text-white/35 text-[10px] uppercase tracking-[.12em] font-semibold mb-3">4-Wochen Trend · Distanz</p>
         <ResponsiveContainer width="100%" height={110}>
           <BarChart data={trend} margin={{ top:4,right:4,left:-24,bottom:0 }}>
-            <XAxis dataKey="w" tick={{ fill:"#94A3B8",fontSize:10 }} axisLine={false} tickLine={false}/>
-            <YAxis tick={{ fill:"#94A3B8",fontSize:10 }} axisLine={false} tickLine={false}/>
+            <XAxis dataKey="w" tick={{ fill:"#2A3E55",fontSize:10 }} axisLine={false} tickLine={false}/>
+            <YAxis tick={{ fill:"#2A3E55",fontSize:10 }} axisLine={false} tickLine={false}/>
             <Tooltip content={<ChartTip/>}/>
-            <Bar dataKey="km" radius={[5,5,0,0]} name="km" fill="#2563EB" opacity={0.65}/>
+            <Bar dataKey="km" radius={[5,5,0,0]} name="km" fill="#00B4FF" opacity={0.65}/>
           </BarChart>
         </ResponsiveContainer>
       </Glass>
 
       {/* Records */}
       <div>
-        <p className="font-bold text-[14px] mb-3" style={{ color: "#0F172A" }}>Persönliche Rekorde</p>
+        <p className="text-white font-bold text-[14px] mb-3">Persönliche Rekorde</p>
         <div className="grid grid-cols-2 gap-2.5">
           {[
-            { l:"Längster Lauf",   v:"14.2 km",    I:Footprints, c:"#2563EB" },
-            { l:"Schnellste Pace", v:"4:38 /km",   I:Zap,        c:"#EA580C" },
-            { l:"Max. Kalorien",   v:"1.140 kcal", I:Flame,      c:"#16A34A" },
-            { l:"Längste Serie",   v:"21 Tage",    I:Trophy,     c:"#D97706" },
+            { l:"Längster Lauf",   v:"14.2 km",    I:Footprints, c:"#00B4FF" },
+            { l:"Schnellste Pace", v:"4:38 /km",   I:Zap,        c:"#F97316" },
+            { l:"Max. Kalorien",   v:"1.140 kcal", I:Flame,      c:"#4ADE80" },
+            { l:"Längste Serie",   v:"21 Tage",    I:Trophy,     c:"#F59E0B" },
           ].map(r => {
             const RI = r.I;
             return (
@@ -918,8 +913,8 @@ function ProgressPage() {
                   style={{ background:r.c+"1A" }}>
                   <RI size={15} style={{ color:r.c }}/>
                 </div>
-                <p className="font-black text-[14px] leading-none" style={{ color: "#0F172A", fontFamily:MONO }}>{r.v}</p>
-                <p className="text-[10px] mt-1" style={{ color: "#64748B" }}>{r.l}</p>
+                <p className="text-white font-black text-[14px] leading-none" style={{ fontFamily:MONO }}>{r.v}</p>
+                <p className="text-white/30 text-[10px] mt-1">{r.l}</p>
               </Glass>
             );
           })}
@@ -944,12 +939,12 @@ function SocialPage() {
   return (
     <div className="flex flex-col gap-4 px-4 pt-6 pb-24">
       <div className="flex items-center justify-between">
-        <h1 className="text-[22px] font-black" style={{ color: "#0F172A" }}>Social</h1>
-        <div className="flex rounded-xl overflow-hidden border" style={{ borderColor:"rgba(0,0,0,0.08)" }}>
+        <h1 className="text-white text-[22px] font-black">Social</h1>
+        <div className="flex rounded-xl overflow-hidden border" style={{ borderColor:"rgba(255,255,255,0.08)" }}>
           {(["friends","feed"] as const).map(v => (
             <button key={v} onClick={() => setView(v)}
               className="px-3.5 py-1.5 text-xs font-bold transition-colors"
-              style={{ background:view===v?"rgba(37,99,235,0.10)":"transparent", color:view===v?"#2563EB":"#94A3B8" }}>
+              style={{ background:view===v?"rgba(0,180,255,0.18)":"transparent", color:view===v?"#00B4FF":"#334E68" }}>
               {v==="friends" ? "Freunde" : "Feed"}
             </button>
           ))}
@@ -963,13 +958,13 @@ function SocialPage() {
 
             {/* Challenge card */}
             <Glass glow className="p-4"
-              style={{ boxShadow:"0 0 28px rgba(217,119,6,0.10),0 2px 20px rgba(0,0,0,0.06)" }}>
+              style={{ boxShadow:"0 0 36px rgba(245,158,11,0.12),0 4px 28px rgba(0,0,0,0.5)" }}>
               <div className="flex items-center gap-2.5 mb-3">
-                <Trophy size={16} style={{ color:"#D97706" }}/>
-                <p className="font-bold text-[14px]" style={{ color: "#0F172A" }}>Weekly Challenge</p>
-                <Pill label="Aktiv" color="#D97706"/>
+                <Trophy size={16} style={{ color:"#F59E0B" }}/>
+                <p className="text-white font-bold text-[14px]">Weekly Challenge</p>
+                <Pill label="Aktiv" color="#F59E0B"/>
               </div>
-              <p className="text-xs mb-3" style={{ color: "#64748B" }}>Wer läuft diese Woche die meisten Kilometer?</p>
+              <p className="text-white/40 text-xs mb-3">Wer läuft diese Woche die meisten Kilometer?</p>
               <div className="flex flex-col gap-2.5">
                 {[
                   ...FRIENDS.filter(f => f.chal).map(f => ({ name:f.name, ini:f.ini, km:f.km })),
@@ -977,10 +972,10 @@ function SocialPage() {
                 ].map((r,i) => (
                   <div key={r.name} className="flex items-center gap-2.5">
                     <span className="text-[11px] font-bold w-4 text-center"
-                      style={{ color:i===0?"#D97706":"#94A3B8" }}>{i+1}.</span>
+                      style={{ color:i===0?"#F59E0B":"rgba(255,255,255,0.25)" }}>{i+1}.</span>
                     <Avi ini={r.ini} size={9}/>
-                    <p className="text-[12px] font-medium flex-1" style={{ color: "#0F172A" }}>{r.name}</p>
-                    <p className="text-[12px] font-bold" style={{ color:"#2563EB", fontFamily:MONO }}>{r.km} km</p>
+                    <p className="text-white text-[12px] font-medium flex-1">{r.name}</p>
+                    <p className="text-[12px] font-bold" style={{ color:"#00B4FF", fontFamily:MONO }}>{r.km} km</p>
                   </div>
                 ))}
               </div>
@@ -991,12 +986,12 @@ function SocialPage() {
               <Glass key={f.id} className="flex items-center gap-3 p-3">
                 <Avi ini={f.ini} online={f.online}/>
                 <div className="flex-1 min-w-0">
-                  <p className="text-[13px] font-semibold" style={{ color: "#0F172A" }}>{f.name}</p>
-                  <p className="text-[10px] mt-0.5" style={{ color: "#64748B" }}>🔥 {f.streak} Tage · {f.km} km diese Woche</p>
+                  <p className="text-white text-[13px] font-semibold">{f.name}</p>
+                  <p className="text-white/30 text-[10px] mt-0.5">🔥 {f.streak} Tage · {f.km} km diese Woche</p>
                 </div>
                 <div className="flex flex-col items-end gap-1.5">
-                  {f.online && <span className="text-[10px] font-semibold text-emerald-600">● Online</span>}
-                  {f.chal && <Pill label="Challenge" color="#D97706"/>}
+                  {f.online && <span className="text-[10px] font-semibold text-emerald-400">● Online</span>}
+                  {f.chal && <Pill label="Challenge" color="#F59E0B"/>}
                 </div>
               </Glass>
             ))}
@@ -1012,48 +1007,48 @@ function SocialPage() {
                   <div className="flex items-center gap-3 mb-3">
                     <Avi ini={item.ini}/>
                     <div className="flex-1">
-                      <p className="text-[13px] font-bold" style={{ color: "#0F172A" }}>{item.user}</p>
+                      <p className="text-white text-[13px] font-bold">{item.user}</p>
                       <div className="flex items-center gap-2">
                         <div className="flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded-full font-semibold"
                           style={{ background:fa.color+"1A", color:fa.color }}>
                           <FI size={9}/> {fa.label}
                         </div>
-                        <span className="text-[10px]" style={{ color: "#94A3B8" }}>{item.time}</span>
+                        <span className="text-white/25 text-[10px]">{item.time}</span>
                       </div>
                     </div>
-                    <button className="w-7 h-7 rounded-full flex items-center justify-center border"
-                      style={{ background:"rgba(0,0,0,0.03)", borderColor:"rgba(0,0,0,0.07)" }}>
-                      <Share2 size={11} style={{ color: "#94A3B8" }}/>
+                    <button className="w-7 h-7 rounded-full flex items-center justify-center border border-white/[.07]"
+                      style={{ background:"rgba(255,255,255,0.04)" }}>
+                      <Share2 size={11} className="text-white/35"/>
                     </button>
                   </div>
 
-                  <p className="text-[13px] leading-relaxed mb-3" style={{ color: "#334155" }}>{item.text}</p>
+                  <p className="text-white/75 text-[13px] leading-relaxed mb-3">{item.text}</p>
 
                   {(item.km > 0 || item.cal > 0) && (
-                    <div className="flex gap-5 mb-3 py-2.5 border-y" style={{ borderColor:"rgba(0,0,0,0.06)" }}>
+                    <div className="flex gap-5 mb-3 py-2.5 border-y" style={{ borderColor:"rgba(255,255,255,0.06)" }}>
                       {item.km > 0 && (
                         <div>
-                          <p className="text-[13px] font-bold" style={{ color: "#0F172A", fontFamily:MONO }}>{item.km}</p>
-                          <p className="text-[9px] uppercase tracking-wide" style={{ color: "#94A3B8" }}>km</p>
+                          <p className="text-white text-[13px] font-bold" style={{ fontFamily:MONO }}>{item.km}</p>
+                          <p className="text-white/30 text-[9px] uppercase tracking-wide">km</p>
                         </div>
                       )}
                       <div>
-                        <p className="text-[13px] font-bold" style={{ color: "#0F172A", fontFamily:MONO }}>{item.cal}</p>
-                        <p className="text-[9px] uppercase tracking-wide" style={{ color: "#94A3B8" }}>kcal</p>
+                        <p className="text-white text-[13px] font-bold" style={{ fontFamily:MONO }}>{item.cal}</p>
+                        <p className="text-white/30 text-[9px] uppercase tracking-wide">kcal</p>
                       </div>
                     </div>
                   )}
 
                   <div className="flex items-center gap-5">
                     <button onClick={() => toggle(item.id)} className="flex items-center gap-1.5 transition-all">
-                      <ThumbsUp size={15} fill={isLiked?"#2563EB":"none"} style={{ color:isLiked?"#2563EB":"#94A3B8" }}/>
-                      <span className="text-xs font-semibold" style={{ color:isLiked?"#2563EB":"#94A3B8" }}>
+                      <ThumbsUp size={15} fill={isLiked?"#00B4FF":"none"} style={{ color:isLiked?"#00B4FF":"#2A3E55" }}/>
+                      <span className="text-xs font-semibold" style={{ color:isLiked?"#00B4FF":"#2A3E55" }}>
                         {item.likes + (isLiked ? 1 : 0)}
                       </span>
                     </button>
                     <button className="flex items-center gap-1.5">
-                      <MessageCircle size={15} style={{ color: "#94A3B8" }}/>
-                      <span className="text-xs font-semibold" style={{ color: "#94A3B8" }}>{item.comments}</span>
+                      <MessageCircle size={15} className="text-white/25"/>
+                      <span className="text-xs text-white/25 font-semibold">{item.comments}</span>
                     </button>
                   </div>
                 </Glass>
@@ -1075,7 +1070,7 @@ export default function App() {
   if (workout) {
     return (
       <div className="w-full max-w-[390px] mx-auto h-screen flex flex-col overflow-hidden"
-        style={{ background:"#F5F8FF" }}>
+        style={{ background:"#060D1B" }}>
         <WorkoutScreen type={workout} onStop={() => setWorkout(null)}/>
       </div>
     );
@@ -1083,12 +1078,12 @@ export default function App() {
 
   return (
     <div className="w-full max-w-[390px] mx-auto h-screen flex flex-col overflow-hidden relative"
-      style={{ background:"linear-gradient(160deg,#EDF2FF 0%,#FAF5FF 100%)" }}>
+      style={{ background:"linear-gradient(160deg,#060C1C 0%,#040A17 100%)" }}>
       {/* Ambient glow blobs */}
       <div className="absolute top-[-100px] left-[-80px] w-[300px] h-[300px] rounded-full pointer-events-none"
-        style={{ background:"rgba(37,99,235,0.06)", filter:"blur(70px)" }}/>
+        style={{ background:"rgba(0,55,180,0.07)", filter:"blur(70px)" }}/>
       <div className="absolute bottom-[60px] right-[-70px] w-[220px] h-[220px] rounded-full pointer-events-none"
-        style={{ background:"rgba(236,72,153,0.07)", filter:"blur(55px)" }}/>
+        style={{ background:"rgba(0,180,255,0.05)", filter:"blur(55px)" }}/>
 
       {/* Scrollable content */}
       <div className="flex-1 overflow-y-auto relative" style={{ scrollbarWidth:"none" }}>
